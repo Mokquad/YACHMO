@@ -3,16 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heliotrope</title>
+    <title>Heliotrope - The Ultimate Apple Internal Hub</title>
     <style>
+        /* Стили тем оформления через CSS-переменные */
         :root {
             --bg-color: #0b0713;
             --card-bg: #160f24;
             --card-hover: #221636;
-            --accent-purple: #8b5cf6;
+            --accent-color: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.15);
+            --border-color: rgba(139, 92, 246, 0.1);
+            --border-hover: rgba(139, 92, 246, 0.4);
             --text-main: #ffffff;
-            --text-muted: #a78bfa;
             --text-desc: #9ca3af;
+            --hero-gradient: linear-gradient(135deg, #ffffff 30%, #b493ff 100%);
+            --table-header: #1e1336;
+            --badge-bg: rgba(139, 92, 246, 0.15);
+            --badge-text: #c084fc;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --card-hover: #f0f0f2;
+            --accent-color: #6e44ff;
+            --accent-glow: rgba(110, 68, 255, 0.1);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(110, 68, 255, 0.4);
+            --text-main: #1d1d1f;
+            --text-desc: #6e6e73;
+            --hero-gradient: linear-gradient(135deg, #1d1d1f 30%, #6e44ff 100%);
+            --table-header: #f5f5f7;
+            --badge-bg: rgba(110, 68, 255, 0.08);
+            --badge-text: #6e44ff;
+        }
+
+        [data-theme="switchboard"] {
+            --bg-color: #1e1e1e;
+            --card-bg: #2a2a2c;
+            --card-hover: #323234;
+            --accent-color: #ff9f0a; /* Инженерный оранжевый */
+            --accent-glow: rgba(255, 159, 10, 0.2);
+            --border-color: rgba(255, 159, 10, 0.15);
+            --border-hover: rgba(255, 159, 10, 0.6);
+            --text-main: #f5f5f7;
+            --text-desc: #8e8e93;
+            --hero-gradient: linear-gradient(135deg, #ffffff 30%, #ff9f0a 100%);
+            --table-header: #3a3a3c;
+            --badge-bg: rgba(255, 159, 10, 0.15);
+            --badge-text: #ff9f0a;
+        }
+
+        [data-theme="cyberpunk"] {
+            --bg-color: #050505;
+            --card-bg: #0d1117;
+            --card-hover: #161b22;
+            --accent-color: #00f0ff; /* Неоновый циан */
+            --accent-glow: rgba(0, 240, 255, 0.25);
+            --border-color: rgba(0, 240, 255, 0.2);
+            --border-hover: #00ff66; /* Неоновый зеленый при наведении */
+            --text-main: #00ff66;
+            --text-desc: #8b949e;
+            --hero-gradient: linear-gradient(135deg, #00ff66 0%, #00f0ff 100%);
+            --table-header: #161b22;
+            --badge-bg: rgba(0, 255, 102, 0.1);
+            --badge-text: #00ff66;
         }
 
         * {
@@ -30,12 +85,52 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* хиро секция */
+        /* Контейнер переключателя тем */
+        .theme-container {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 12px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .theme-container span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-desc);
+        }
+
+        .theme-container select {
+            background: transparent;
+            color: var(--text-main);
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .theme-container select option {
+            background: var(--card-bg);
+            color: var(--text-main);
+        }
+
+        /* Hero Section */
         .hero {
             text-align: center;
-            padding: 80px 20px 40px 20px;
+            padding: 100px 20px 20px 20px;
             max-width: 800px;
         }
 
@@ -44,17 +139,39 @@
             font-weight: 800;
             letter-spacing: -0.05em;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, #ffffff 30%, #b493ff 100%);
+            background: var(--hero-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
         }
 
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-desc);
-            font-weight: 400;
+        /* Строка поиска для устранения пустоты */
+        .search-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 40px auto;
+            padding: 0 20px;
         }
 
+        .search-box {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 14px 20px;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Main Grid Container */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -68,9 +185,10 @@
             gap: 24px;
         }
 
+        /* Interactive Cards */
         .card {
             background-color: var(--card-bg);
-            border: 1px solid rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 28px;
             display: flex;
@@ -81,35 +199,40 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
             color: inherit;
+            min-height: 160px;
         }
 
         .card:hover {
             transform: translateY(-6px);
             background-color: var(--card-hover);
-            border-color: rgba(139, 92, 246, 0.4);
-            box-shadow: 0 20px 40px rgba(11, 7, 19, 0.5), 0 0 30px rgba(139, 92, 246, 0.15);
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px var(--accent-glow);
         }
 
         .card-header {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .icon-wrapper {
-            background: rgba(139, 92, 246, 0.1);
+            background: rgba(139, 92, 246, 0.06);
             padding: 12px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent-purple);
-            transition: background 0.3s ease;
+            color: var(--accent-color);
+            transition: all 0.3s ease;
         }
 
+        [data-theme="light"] .icon-wrapper { background: rgba(110, 68, 255, 0.06); }
+        [data-theme="switchboard"] .icon-wrapper { background: rgba(255, 159, 10, 0.06); }
+        [data-theme="cyberpunk"] .icon-wrapper { background: rgba(0, 240, 255, 0.06); }
+
         .card:hover .icon-wrapper {
-            background: rgba(139, 92, 246, 0.2);
+            transform: scale(1.05);
         }
 
         .arrow-icon {
@@ -118,74 +241,118 @@
         }
 
         .card:hover .arrow-icon {
-            color: var(--accent-purple);
+            color: var(--accent-color);
             transform: translateX(4px);
         }
 
         .card-content h2 {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 600;
-            margin-bottom: 8px;
             color: var(--text-main);
+            margin-bottom: 12px;
         }
 
-        .card-content p {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: var(--text-desc);
+        /* Информационные бэджи метаданных внутри карточек */
+        .card-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
+        .badge {
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        /* Разделы таблиц базы данных */
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin: 40px 0 20px 0;
+            margin: 60px 0 20px 0;
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #ffffff;
-            border-left: 4px solid var(--accent-purple);
-            padding-left: 12px;
         }
 
-        .stats-banner {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            background: linear-gradient(90deg, #160f24 0%, #1e1336 100%);
-            border: 1px solid rgba(139, 92, 246, 0.15);
-            border-radius: 16px;
-            padding: 30px;
-            margin-top: 20px;
-            justify-content: space-around;
-            text-align: center;
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: var(--accent-color);
+            border-radius: 2px;
         }
 
-        .stat-item h3 {
-            font-size: 2rem;
-            color: var(--accent-purple);
-            margin-bottom: 4px;
+        .table-container {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .stat-item p {
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
             font-size: 0.9rem;
-            color: var(--text-desc);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
 
+        .data-table th {
+            background: var(--table-header);
+            color: var(--text-main);
+            padding: 16px 20px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 16px 20px;
+            color: var(--text-desc);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.01);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff66;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* Footer */
         footer {
             margin-top: auto;
             width: 100%;
             padding: 40px 20px;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background-color: #08050e;
+            border-top: 1px solid var(--border-color);
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
         .footer-text {
             font-size: 0.85rem;
-            color: #6b7280;
+            color: var(--text-desc);
             margin-bottom: 16px;
+            opacity: 0.7;
         }
 
         .footer-links {
@@ -202,29 +369,55 @@
         }
 
         .footer-links a:hover {
-            color: var(--accent-purple);
+            color: var(--accent-color);
         }
 
-        @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 2.5rem;
+        @media (max-width: 768px) {
+            .theme-container {
+                position: static;
+                margin-top: 20px;
+                display: inline-flex;
+            }
+            .hero {
+                padding-top: 40px;
             }
             .grid {
                 grid-template-columns: 1fr;
+            }
+            .data-table th:nth-child(3), .data-table td:nth-child(3) {
+                display: none; /* Скрытие платформы на мобилках */
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- Переключатель тем оформления -->
+    <div class="theme-container">
+        <span>🎨 Style:</span>
+        <select id="themeSelect" onchange="setTheme(this.value)">
+            <option value="dark">Heliotrope (Dark)</option>
+            <option value="light">Apple Clean (Light)</option>
+            <option value="switchboard">SwitchBoard (Proto)</option>
+            <option value="cyberpunk">Cyberpunk (Neon)</option>
+        </select>
+    </div>
+
+    <!-- Hero Section -->
     <div class="hero">
         <h1>Heliotrope</h1>
     </div>
 
+    <!-- Поисковой хаб -->
+    <div class="search-container">
+        <input type="text" class="search-box" placeholder="Search firmwares, codenames, keys...">
+    </div>
+
+    <!-- Main Content -->
     <div class="container">
-        
         <div class="grid">
             
+            <!-- Card 1: Internal Firmwares -->
             <a href="#firmwares" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -236,9 +429,14 @@
                 </div>
                 <div class="card-content">
                     <h2>Internal Firmwares</h2>
+                    <div class="card-meta">
+                        <span class="badge">142 Items</span>
+                        <span class="badge">iOS 1.x - 18.x</span>
+                    </div>
                 </div>
             </a>
 
+            <!-- Card 2: NonUI Tutorial -->
             <a href="#nonui" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -250,9 +448,14 @@
                 </div>
                 <div class="card-content">
                     <h2>NonUI Tutorial</h2>
+                    <div class="card-meta">
+                        <span class="badge">Console</span>
+                        <span class="badge">Switchboard</span>
+                    </div>
                 </div>
             </a>
 
+            <!-- Card 3: InternalUI Tutorial -->
             <a href="#internalui" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -264,9 +467,14 @@
                 </div>
                 <div class="card-content">
                     <h2>InternalUI Tutorial</h2>
+                    <div class="card-meta">
+                        <span class="badge">UI Suite</span>
+                        <span class="badge">Lab OS</span>
+                    </div>
                 </div>
             </a>
 
+            <!-- Card 4: DemoLoop Tutorial -->
             <a href="#demoloop" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -278,9 +486,14 @@
                 </div>
                 <div class="card-content">
                     <h2>DemoLoop Tutorial</h2>
+                    <div class="card-meta">
+                        <span class="badge">Store Demo</span>
+                        <span class="badge">Profiles</span>
+                    </div>
                 </div>
             </a>
 
+            <!-- Card 5: SkankPhone Tutorial -->
             <a href="#skankphone" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -292,6 +505,10 @@
                 </div>
                 <div class="card-content">
                     <h2>SkankPhone Tutorial</h2>
+                    <div class="card-meta">
+                        <span class="badge">Pre-iOS</span>
+                        <span class="badge">Historic</span>
+                    </div>
                 </div>
             </a>
 
@@ -307,12 +524,59 @@
                 </div>
                 <div class="card-content">
                     <h2>Archive</h2>
+                    <div class="card-meta">
+                        <span class="badge">Legacy Tools</span>
+                        <span class="badge">Jailbreak</span>
+                    </div>
                 </div>
             </a>
 
         </div>
+
+        <!-- Новая секция инъекций бд против пустоты страницы -->
+        <div class="section-title">Recent Database Injections</div>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Artifact / Build</th>
+                        <th>Target Device</th>
+                        <th>Environment</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Alpine 1A420 (SwitchBoard)</td>
+                        <td>iPhone 1st Gen (iPhone1,1)</td>
+                        <td>NonUI Engine</td>
+                        <td><span class="status-dot"></span>Verified</td>
+                    </tr>
+                    <tr>
+                        <td>Heavenly 8A293 (InternalUI)</td>
+                        <td>iPhone 4 (iPhone3,1)</td>
+                        <td>SwitchBoard UI</td>
+                        <td><span class="status-dot"></span>Verified</td>
+                    </tr>
+                    <tr>
+                        <td>PurpleRestore Toolchain v3.8.2</td>
+                        <td>macOS Intel/Apple Silicon</td>
+                        <td>Internal Tool</td>
+                        <td><span class="status-dot"></span>Active</td>
+                    </tr>
+                    <tr>
+                        <td>Astro Diagnostics Suite</td>
+                        <td>Apple Watch S3 (Watch3,1)</td>
+                        <td>Lab Diags</td>
+                        <td><span class="status-dot"></span>Verified</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
+    <!-- Footer -->
     <footer>
         <div class="footer-text">© 2026 Purple Project. This site is for research purposes only and is not affiliated with Apple Inc.</div>
         <div class="footer-links">
@@ -321,6 +585,21 @@
             <a href="#twitter">X (Twitter)</a>
         </div>
     </footer>
+
+    <!-- Логика переключения тем оформления -->
+    <script>
+        function setTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            localStorage.setItem('heliotrope-theme', themeName);
+        }
+
+        // Автоматическое восстановление сохраненной темы при загрузке страницы
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('heliotrope-theme') || 'dark';
+            document.getElementById('themeSelect').value = savedTheme;
+            setTheme(savedTheme);
+        });
+    </script>
 
 </body>
 </html>
