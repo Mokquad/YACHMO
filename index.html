@@ -5,18 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heliotrope - The Ultimate Apple Internal Hub</title>
     <style>
-        /* Стили тем оформления через CSS-переменные */
+        /* Возврат к глубокой фиолетовой палитре и настройка альтернативных стилей */
         :root {
             --bg-color: #0b0713;
             --card-bg: #160f24;
             --card-hover: #221636;
             --accent-color: #8b5cf6;
-            --accent-glow: rgba(139, 92, 246, 0.15);
-            --border-color: rgba(139, 92, 246, 0.1);
-            --border-hover: rgba(139, 92, 246, 0.4);
+            --accent-glow: rgba(139, 92, 246, 0.25);
+            --border-color: rgba(139, 92, 246, 0.15);
+            --border-hover: rgba(139, 92, 246, 0.45);
             --text-main: #ffffff;
-            --text-desc: #9ca3af;
+            --text-desc: #a78bfa;
+            --text-muted: #9ca3af;
             --hero-gradient: linear-gradient(135deg, #ffffff 30%, #b493ff 100%);
+            --table-header: #1e1336;
+            --badge-bg: rgba(139, 92, 246, 0.2);
+            --badge-text: #c084fc;
+            --switcher-bg: #160f24;
+            --btn-active-bg: #8b5cf6;
+            --btn-active-text: #ffffff;
         }
 
         [data-theme="light"] {
@@ -28,34 +35,55 @@
             --border-color: rgba(0, 0, 0, 0.08);
             --border-hover: rgba(110, 68, 255, 0.4);
             --text-main: #1d1d1f;
-            --text-desc: #6e6e73;
+            --text-desc: #6e44ff;
+            --text-muted: #6e6e73;
             --hero-gradient: linear-gradient(135deg, #1d1d1f 30%, #6e44ff 100%);
+            --table-header: #f5f5f7;
+            --badge-bg: rgba(110, 68, 255, 0.08);
+            --badge-text: #6e44ff;
+            --switcher-bg: #ffffff;
+            --btn-active-bg: #6e44ff;
+            --btn-active-text: #ffffff;
         }
 
         [data-theme="switchboard"] {
-            --bg-color: #1e1e1e;
-            --card-bg: #2a2a2c;
-            --card-hover: #323234;
-            --accent-color: #ff9f0a; /* Инженерный оранжевый */
+            --bg-color: #1a1a1c;
+            --card-bg: #262628;
+            --card-hover: #2f2f31;
+            --accent-color: #ff9f0a;
             --accent-glow: rgba(255, 159, 10, 0.2);
             --border-color: rgba(255, 159, 10, 0.15);
-            --border-hover: rgba(255, 159, 10, 0.6);
+            --border-hover: rgba(255, 159, 10, 0.5);
             --text-main: #f5f5f7;
-            --text-desc: #8e8e93;
+            --text-desc: #ff9f0a;
+            --text-muted: #8e8e93;
             --hero-gradient: linear-gradient(135deg, #ffffff 30%, #ff9f0a 100%);
+            --table-header: #3a3a3c;
+            --badge-bg: rgba(255, 159, 10, 0.12);
+            --badge-text: #ff9f0a;
+            --switcher-bg: #262628;
+            --btn-active-bg: #ff9f0a;
+            --btn-active-text: #1a1a1c;
         }
 
         [data-theme="cyberpunk"] {
             --bg-color: #050505;
             --card-bg: #0d1117;
             --card-hover: #161b22;
-            --accent-color: #00f0ff; /* Неоновый циан */
-            --accent-glow: rgba(0, 240, 255, 0.25);
-            --border-color: rgba(0, 240, 255, 0.2);
-            --border-hover: #00ff66; /* Неоновый зеленый при наведении */
+            --accent-color: #00f0ff;
+            --accent-glow: rgba(0, 240, 255, 0.2);
+            --border-color: rgba(0, 240, 255, 0.15);
+            --border-hover: #00ff66;
             --text-main: #00ff66;
-            --text-desc: #8b949e;
+            --text-desc: #00f0ff;
+            --text-muted: #8b949e;
             --hero-gradient: linear-gradient(135deg, #00ff66 0%, #00f0ff 100%);
+            --table-header: #161b22;
+            --badge-bg: rgba(0, 255, 102, 0.1);
+            --badge-text: #00ff66;
+            --switcher-bg: #0d1117;
+            --btn-active-bg: #00f0ff;
+            --btn-active-text: #050505;
         }
 
         * {
@@ -77,48 +105,53 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Контейнер переключателя тем */
-        .theme-container {
-            position: absolute;
-            top: 24px;
-            right: 24px;
+        /* Полная переработка переключателя тем под монолитный и аккуратный стиль */
+        .header-controls {
+            width: 100%;
+            max-width: 1200px;
+            padding: 24px;
             display: flex;
+            justify-content: flex-end;
             align-items: center;
-            gap: 8px;
-            background: var(--card-bg);
+        }
+
+        .theme-control-panel {
+            background: var(--switcher-bg);
             border: 1px solid var(--border-color);
-            padding: 8px 14px;
-            border-radius: 12px;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 4px;
+            border-radius: 30px;
+            display: flex;
+            gap: 2px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
         }
 
-        .theme-container span {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-desc);
-        }
-
-        .theme-container select {
+        .theme-pill {
             background: transparent;
-            color: var(--text-main);
             border: none;
-            outline: none;
-            font-size: 0.9rem;
-            cursor: pointer;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.82rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .theme-container select option {
-            background: var(--card-bg);
+        .theme-pill:hover {
             color: var(--text-main);
+        }
+
+        .theme-pill.active {
+            background: var(--btn-active-bg);
+            color: var(--btn-active-text);
+            box-shadow: 0 4px 10px var(--accent-glow);
         }
 
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 100px 20px 40px 20px;
+            padding: 40px 20px 28px 20px;
             max-width: 800px;
         }
 
@@ -131,6 +164,32 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: all 0.3s ease;
+        }
+
+        /* Строка поиска */
+        .search-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 48px auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 14px 20px;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         /* Main Grid Container */
@@ -161,6 +220,7 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
             color: inherit;
+            min-height: 160px;
         }
 
         .card:hover {
@@ -178,7 +238,7 @@
         }
 
         .icon-wrapper {
-            background: rgba(139, 92, 246, 0.06);
+            background: rgba(139, 92, 246, 0.08);
             padding: 12px;
             border-radius: 12px;
             display: flex;
@@ -188,7 +248,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Динамическое изменение фона иконки в зависимости от темы */
         [data-theme="light"] .icon-wrapper { background: rgba(110, 68, 255, 0.06); }
         [data-theme="switchboard"] .icon-wrapper { background: rgba(255, 159, 10, 0.06); }
         [data-theme="cyberpunk"] .icon-wrapper { background: rgba(0, 240, 255, 0.06); }
@@ -198,7 +257,7 @@
         }
 
         .arrow-icon {
-            color: var(--text-desc);
+            color: var(--text-muted);
             transition: all 0.3s ease;
         }
 
@@ -208,9 +267,151 @@
         }
 
         .card-content h2 {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 600;
             color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        /* Информационные бэджи */
+        .card-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        /* Полная переработка триггера и контейнера базы данных (Интегрированный Спойлер) */
+        .database-trigger-wrapper {
+            margin: 60px 0 20px 0;
+            width: 100%;
+        }
+
+        .database-interactive-header {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 18px 24px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .database-interactive-header:hover {
+            background: var(--card-hover);
+            border-color: var(--border-hover);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15), 0 0 15px var(--accent-glow);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: var(--accent-color);
+            border-radius: 2px;
+            transition: background-color 0.3s ease;
+        }
+
+        .chevron-indicator {
+            color: var(--accent-color);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Класс вращения шеврона при раскрытии */
+        .database-interactive-header.expanded .chevron-indicator {
+            transform: rotate(180deg);
+        }
+
+        /* Плавный анимированный контейнер для контента таблицы */
+        .table-animator-box {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.3s ease, 
+                        transform 0.3s ease;
+        }
+
+        .table-animator-box.visible {
+            max-height: 500px; /* Достаточно для контента таблицы */
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 14px;
+        }
+
+        .table-container {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .data-table th {
+            background: var(--table-header);
+            color: var(--text-main);
+            padding: 16px 20px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 16px 20px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.01);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff66;
+            border-radius: 50%;
+            margin-right: 6px;
         }
 
         /* Footer */
@@ -225,7 +426,7 @@
 
         .footer-text {
             font-size: 0.85rem;
-            color: var(--text-desc);
+            color: var(--text-muted);
             margin-bottom: 16px;
             opacity: 0.7;
         }
@@ -237,7 +438,7 @@
         }
 
         .footer-links a {
-            color: var(--text-desc);
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.2s ease;
@@ -248,31 +449,32 @@
         }
 
         @media (max-width: 768px) {
-            .theme-container {
-                position: static;
-                margin-top: 20px;
-                display: inline-flex;
+            .header-controls {
+                justify-content: center;
+                padding-bottom: 0;
             }
             .hero {
-                padding-top: 40px;
+                padding-top: 24px;
             }
             .grid {
                 grid-template-columns: 1fr;
+            }
+            .data-table th:nth-child(3), .data-table td:nth-child(3) {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Переключатель тем оформления -->
-    <div class="theme-container">
-        <span>🎨 Style:</span>
-        <select id="themeSelect" onchange="setTheme(this.value)">
-            <option value="dark">Heliotrope (Dark)</option>
-            <option value="light">Apple Clean (Light)</option>
-            <option value="switchboard">SwitchBoard (Proto)</option>
-            <option value="cyberpunk">Cyberpunk (Neon)</option>
-        </select>
+    <!-- Верхний блок управления с бесшовным переключателем стилей -->
+    <div class="header-controls">
+        <div class="theme-control-panel">
+            <button id="pill-dark" class="theme-pill active" onclick="setTheme('dark')">Dark Hub</button>
+            <button id="pill-light" class="theme-pill" onclick="setTheme('light')">Clean Light</button>
+            <button id="pill-switchboard" class="theme-pill" onclick="setTheme('switchboard')">SwitchBoard</button>
+            <button id="pill-cyberpunk" class="theme-pill" onclick="setTheme('cyberpunk')">Cyberpunk</button>
+        </div>
     </div>
 
     <!-- Hero Section -->
@@ -280,11 +482,16 @@
         <h1>Heliotrope</h1>
     </div>
 
+    <!-- Поисковой хаб -->
+    <div class="search-container">
+        <input type="text" class="search-box" placeholder="Search firmwares, codenames, keys...">
+    </div>
+
     <!-- Main Content -->
     <div class="container">
         <div class="grid">
             
-            <!-- Card 1: Internal Firmwares -->
+            <!-- Card 1: Internal Firmwares (Вообще без тегов) -->
             <a href="#firmwares" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -299,11 +506,11 @@
                 </div>
             </a>
 
-            <!-- Card 2: NonUI Tutorial -->
+            <!-- Card 2: NonUI Tutorial (Иконка шестеренки + тег Guide) -->
             <a href="#nonui" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     </div>
                     <div class="arrow-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -311,10 +518,13 @@
                 </div>
                 <div class="card-content">
                     <h2>NonUI Tutorial</h2>
+                    <div class="card-meta">
+                        <span class="badge">Guide</span>
+                    </div>
                 </div>
             </a>
 
-            <!-- Card 3: InternalUI Tutorial -->
+            <!-- Card 3: InternalUI Tutorial (Тег Guide) -->
             <a href="#internalui" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -326,10 +536,13 @@
                 </div>
                 <div class="card-content">
                     <h2>InternalUI Tutorial</h2>
+                    <div class="card-meta">
+                        <span class="badge">Guide</span>
+                    </div>
                 </div>
             </a>
 
-            <!-- Card 4: DemoLoop Tutorial -->
+            <!-- Card 4: DemoLoop Tutorial (Тег Guide) -->
             <a href="#demoloop" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -341,25 +554,31 @@
                 </div>
                 <div class="card-content">
                     <h2>DemoLoop Tutorial</h2>
+                    <div class="card-meta">
+                        <span class="badge">Guide</span>
+                    </div>
                 </div>
             </a>
 
-            <!-- Card 5: SkankPhone Tutorial -->
-            <a href="#skankphone" class="card">
+            <!-- Card 5: Apps (Переименовано, иконка-сетка, тег Apps) -->
+            <a href="#apps" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><circle cx="12" cy="7" r="1"></circle><circle cx="15" cy="8" r="1"></circle><circle cx="14" cy="11" r="1"></circle></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
                     </div>
                     <div class="arrow-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </div>
                 </div>
                 <div class="card-content">
-                    <h2>SkankPhone Tutorial</h2>
+                    <h2>Apps</h2>
+                    <div class="card-meta">
+                        <span class="badge">Apps</span>
+                    </div>
                 </div>
             </a>
 
-            <!-- Card 6: Archive -->
+            <!-- Card 6: Archive (Тег Archive) -->
             <a href="#archive" class="card">
                 <div class="card-header">
                     <div class="icon-wrapper">
@@ -371,10 +590,65 @@
                 </div>
                 <div class="card-content">
                     <h2>Archive</h2>
+                    <div class="card-meta">
+                        <span class="badge">Archive</span>
+                    </div>
                 </div>
             </a>
 
         </div>
+
+        <!-- Полноценный Интегрированный Спойлер Базы Данных -->
+        <div class="database-trigger-wrapper">
+            <div id="dbInteractiveHeader" class="database-interactive-header" onclick="toggleDatabase()">
+                <div class="section-title">Recent Database Injections</div>
+                <div class="chevron-indicator">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+            </div>
+            
+            <div id="dbTableAnimator" class="table-animator-box">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Artifact / Build</th>
+                                <th>Target Device</th>
+                                <th>Environment</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alpine 1A420 (SwitchBoard)</td>
+                                <td>iPhone 1st Gen (iPhone1,1)</td>
+                                <td>NonUI Engine</td>
+                                <td><span class="status-dot"></span>Verified</td>
+                            </tr>
+                            <tr>
+                                <td>Heavenly 8A293 (InternalUI)</td>
+                                <td>iPhone 4 (iPhone3,1)</td>
+                                <td>SwitchBoard UI</td>
+                                <td><span class="status-dot"></span>Verified</td>
+                            </tr>
+                            <tr>
+                                <td>PurpleRestore Toolchain v3.8.2</td>
+                                <td>macOS Intel/Apple Silicon</td>
+                                <td>Internal Tool</td>
+                                <td><span class="status-dot"></span>Active</td>
+                            </tr>
+                            <tr>
+                                <td>Astro Diagnostics Suite</td>
+                                <td>Apple Watch S3 (Watch3,1)</td>
+                                <td>Lab Diags</td>
+                                <td><span class="status-dot"></span>Verified</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Footer -->
@@ -387,20 +661,32 @@
         </div>
     </footer>
 
-    <!-- Логика переключения тем оформления -->
+    <!-- Логика работы переключения интерфейса -->
     <script>
         function setTheme(themeName) {
             document.documentElement.setAttribute('data-theme', themeName);
             localStorage.setItem('heliotrope-theme', themeName);
+            
+            document.querySelectorAll('.theme-pill').forEach(pill => pill.classList.remove('active'));
+            
+            const activePill = document.getElementById('pill-' + themeName);
+            if (activePill) activePill.classList.add('active');
         }
 
-        // Автоматическое восстановление сохраненной темы при загрузке страницы
+        function toggleDatabase() {
+            const header = document.getElementById('dbInteractiveHeader');
+            const animator = document.getElementById('dbTableAnimator');
+            
+            header.classList.toggle('expanded');
+            animator.classList.toggle('visible');
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('heliotrope-theme') || 'dark';
-            document.getElementById('themeSelect').value = savedTheme;
             setTheme(savedTheme);
         });
     </script>
 
 </body>
 </html>
+
