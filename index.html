@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heliotrope - The Ultimate Apple Internal Hub</title>
+    <title>Heliotrope</title>
     <style>
-        /* Фирменная глубокая фиолетовая палитра */
         :root {
             --bg-color: #0b0713;
             --card-bg: #160f24;
@@ -38,7 +37,6 @@
             position: relative;
         }
 
-        /* Нативная и плавная анимация Apple Fade In + Translate */
         @keyframes appleFadeInUp {
             from {
                 opacity: 0;
@@ -55,7 +53,6 @@
             to { opacity: 1; }
         }
 
-        /* Hero Section */
         .hero {
             text-align: center;
             padding: 80px 20px 28px 20px;
@@ -71,7 +68,6 @@
             color: var(--text-main);
         }
 
-        /* Поисковой хаб */
         .search-container {
             width: 100%;
             max-width: 500px;
@@ -99,7 +95,6 @@
             box-shadow: 0 0 18px var(--accent-glow);
         }
 
-        /* Контейнер контента */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -107,14 +102,12 @@
             margin-bottom: 60px;
         }
 
-        /* Секция закладок (Pinned) */
         .pinned-section {
             margin-bottom: 56px;
             display: none;
             animation: simpleFadeIn 0.4s ease forwards;
         }
 
-        /* Центрированные и строгие заголовки разделов */
         .section-title {
             font-size: 1.1rem;
             font-weight: 700;
@@ -136,7 +129,6 @@
             gap: 24px;
         }
 
-        /* Карточки */
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -158,7 +150,7 @@
                         box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Каскадное появление основных карточек */
+/* вот тут дерьмо ебанное */ 
         #main-grid .card:nth-child(1) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.2s forwards; }
         #main-grid .card:nth-child(2) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.26s forwards; }
         #main-grid .card:nth-child(3) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.32s forwards; }
@@ -195,8 +187,7 @@
             align-items: center;
             gap: 12px;
         }
-
-        /* Фиксированная зона элементов управления для идеального выравнивания звезд и стрелок */
+        
         .header-right {
             display: flex;
             align-items: center;
@@ -220,11 +211,10 @@
             transform: scale(1.04);
         }
 
-        /* Инженерная «слоеная» кнопка закрепления */
         .pin-button {
             background: transparent;
             border: none;
-            color: rgba(139, 92, 246, 0.35); /* Изначально приглушенный фиолетовый */
+            color: rgba(139, 92, 246, 0.35); /* вот типа приглушенный */
             cursor: pointer;
             padding: 4px;
             border-radius: 8px;
@@ -243,20 +233,18 @@
             filter: drop-shadow(0 0 6px var(--accent-color));
         }
 
-        /* Слоеная, яркая активная звезда */
+        /* звезда залупская чутчут */
         .card.is-pinned .pin-button {
             color: #d8b4fe !important;
             fill: var(--accent-color);
             filter: drop-shadow(0 0 8px var(--accent-color)) drop-shadow(0 2px 4px rgba(0,0,0,0.6));
         }
 
-        /* Запрет повторного клика в основном гриде после пина */
         #main-grid .card.is-pinned .pin-button {
             pointer-events: none;
             cursor: default;
         }
 
-        /* Изначально фиолетовая стрелка */
         .arrow-icon {
             color: var(--accent-color);
             display: inline-flex;
@@ -265,7 +253,6 @@
             transition: color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
         }
 
-        /* Становится «еще фиолетовей» при взаимодействии */
         .card:hover .arrow-icon,
         .card.is-pinned .arrow-icon {
             color: #d8b4fe;
@@ -280,7 +267,6 @@
             margin-top: 16px;
         }
 
-        /* Заглушка пустого поиска */
         .no-results {
             grid-column: 1 / -1;
             text-align: center;
@@ -290,7 +276,6 @@
             display: none;
         }
 
-        /* Подвал */
         footer {
             margin-top: auto;
             width: 100%;
@@ -339,37 +324,31 @@
 </head>
 <body>
 
-    <!-- Hero Section -->
     <div class="hero">
         <h1>Heliotrope</h1>
     </div>
 
-    <!-- Поисковой хаб -->
     <div class="search-container">
         <input type="text" id="search-input" class="search-box" placeholder="Type to filter modules instantly...">
     </div>
 
-    <!-- Main Content -->
     <div class="container">
         
-        <!-- Секция закладок (Pinned) -->
         <div id="pinned-container" class="pinned-section">
             <div class="section-title">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)" stroke="var(--accent-color)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                PINNED
+                Pinned
             </div>
             <div id="pinned-grid" class="grid">
                 <!-- Закрепленные карточки -->
             </div>
         </div>
 
-        <!-- Основная сетка модулей (Modules) -->
         <div class="modules-section">
-            <div class="section-title">MODULES</div>
+            <div class="section-title">Modules</div>
             
             <div class="grid" id="main-grid">
                 
-                <!-- Card 1: Internal Firmwares -->
                 <a href="#firmwares" class="card" data-id="firmwares">
                     <div class="card-header">
                         <div class="header-left">
@@ -391,12 +370,11 @@
                     </div>
                 </a>
 
-                <!-- Card 2: NonUI Tutorial -->
                 <a href="#nonui" class="card" data-id="nonui">
                     <div class="card-header">
                         <div class="header-left">
                             <div class="icon-wrapper">
-                                <!-- Возвращенная детализированная шестеренка Apple Engineering -->
+                                
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                             </div>
                         </div>
@@ -414,7 +392,6 @@
                     </div>
                 </a>
 
-                <!-- Card 3: InternalUI Tutorial -->
                 <a href="#internalui" class="card" data-id="internalui">
                     <div class="card-header">
                         <div class="header-left">
@@ -436,7 +413,6 @@
                     </div>
                 </a>
 
-                <!-- Card 4: DemoLoop Tutorial -->
                 <a href="#demoloop" class="card" data-id="demoloop">
                     <div class="card-header">
                         <div class="header-left">
@@ -458,7 +434,6 @@
                     </div>
                 </a>
 
-                <!-- Card 5: Apps -->
                 <a href="#apps" class="card" data-id="apps">
                     <div class="card-header">
                         <div class="header-left">
@@ -480,7 +455,6 @@
                     </div>
                 </a>
 
-                <!-- Card 6: Archive -->
                 <a href="#archive" class="card" data-id="archive">
                     <div class="card-header">
                         <div class="header-left">
@@ -502,14 +476,12 @@
                     </div>
                 </a>
 
-                <!-- Заглушка пустого поиска -->
-                <div id="search-empty" class="no-results">No modules match your query.</div>
+                <div id="search-empty" class="no-results">No modules match your query!</div>
 
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-text">© 2026 Purple Project. This site is for research purposes only and is not affiliated with Apple Inc.</div>
         <div class="footer-links">
@@ -519,7 +491,7 @@
         </div>
     </footer>
 
-    <!-- Скрипты управления -->
+    <!-- вот тут нейронка писала прям все-все тк я не знаю джаву -->
     <script>
         // --- 1. Живой поиск по карточкам ---
         const searchInput = document.getElementById('search-input');
