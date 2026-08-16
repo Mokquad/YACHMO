@@ -17,9 +17,6 @@
             --text-main: #ffffff;
             --text-desc: #9ca3af;
             --hero-gradient: linear-gradient(135deg, #ffffff 30%, #b493ff 100%);
-            --table-header: #1e1336;
-            --badge-bg: rgba(139, 92, 246, 0.15);
-            --badge-text: #c084fc;
         }
 
         [data-theme="light"] {
@@ -33,9 +30,6 @@
             --text-main: #1d1d1f;
             --text-desc: #6e6e73;
             --hero-gradient: linear-gradient(135deg, #1d1d1f 30%, #6e44ff 100%);
-            --table-header: #f5f5f7;
-            --badge-bg: rgba(110, 68, 255, 0.08);
-            --badge-text: #6e44ff;
         }
 
         [data-theme="switchboard"] {
@@ -49,9 +43,6 @@
             --text-main: #f5f5f7;
             --text-desc: #8e8e93;
             --hero-gradient: linear-gradient(135deg, #ffffff 30%, #ff9f0a 100%);
-            --table-header: #3a3a3c;
-            --badge-bg: rgba(255, 159, 10, 0.15);
-            --badge-text: #ff9f0a;
         }
 
         [data-theme="cyberpunk"] {
@@ -65,9 +56,6 @@
             --text-main: #00ff66;
             --text-desc: #8b949e;
             --hero-gradient: linear-gradient(135deg, #00ff66 0%, #00f0ff 100%);
-            --table-header: #161b22;
-            --badge-bg: rgba(0, 255, 102, 0.1);
-            --badge-text: #00ff66;
         }
 
         * {
@@ -130,7 +118,7 @@
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 100px 20px 20px 20px;
+            padding: 100px 20px 40px 20px;
             max-width: 800px;
         }
 
@@ -143,32 +131,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: all 0.3s ease;
-        }
-
-        /* Строка поиска для устранения пустоты */
-        .search-container {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto 40px auto;
-            padding: 0 20px;
-        }
-
-        .search-box {
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 14px 20px;
-            border-radius: 12px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .search-box:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         /* Main Grid Container */
@@ -199,7 +161,6 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
             color: inherit;
-            min-height: 160px;
         }
 
         .card:hover {
@@ -227,6 +188,7 @@
             transition: all 0.3s ease;
         }
 
+        /* Динамическое изменение фона иконки в зависимости от темы */
         [data-theme="light"] .icon-wrapper { background: rgba(110, 68, 255, 0.06); }
         [data-theme="switchboard"] .icon-wrapper { background: rgba(255, 159, 10, 0.06); }
         [data-theme="cyberpunk"] .icon-wrapper { background: rgba(0, 240, 255, 0.06); }
@@ -246,96 +208,9 @@
         }
 
         .card-content h2 {
-            font-size: 1.35rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 12px;
-        }
-
-        /* Информационные бэджи метаданных внутри карточек */
-        .card-meta {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            background: var(--badge-bg);
-            color: var(--badge-text);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-
-        /* Разделы таблиц базы данных */
-        .section-title {
             font-size: 1.4rem;
-            font-weight: 700;
-            margin: 60px 0 20px 0;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 18px;
-            background: var(--accent-color);
-            border-radius: 2px;
-        }
-
-        .table-container {
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        .data-table th {
-            background: var(--table-header);
-            color: var(--text-main);
-            padding: 16px 20px;
             font-weight: 600;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .data-table td {
-            padding: 16px 20px;
-            color: var(--text-desc);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .data-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .data-table tr:hover td {
             color: var(--text-main);
-            background: rgba(255,255,255,0.01);
-        }
-
-        .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #00ff66;
-            border-radius: 50%;
-            margin-right: 6px;
         }
 
         /* Footer */
@@ -384,9 +259,6 @@
             .grid {
                 grid-template-columns: 1fr;
             }
-            .data-table th:nth-child(3), .data-table td:nth-child(3) {
-                display: none; /* Скрытие платформы на мобилках */
-            }
         }
     </style>
 </head>
@@ -394,21 +266,18 @@
 
     <!-- Переключатель тем оформления -->
     <div class="theme-container">
-        <span>Style:</span>
+        <span>🎨 Style:</span>
         <select id="themeSelect" onchange="setTheme(this.value)">
-            <option value="dark">Deep Purple (Dark)</option>
-            <option value="light">White (Light)</option>
+            <option value="dark">Heliotrope (Dark)</option>
+            <option value="light">Apple Clean (Light)</option>
+            <option value="switchboard">SwitchBoard (Proto)</option>
+            <option value="cyberpunk">Cyberpunk (Neon)</option>
         </select>
     </div>
 
     <!-- Hero Section -->
     <div class="hero">
         <h1>Heliotrope</h1>
-    </div>
-
-    <!-- Поисковой хаб -->
-    <div class="search-container">
-        <input type="text" class="search-box" placeholder="Search...">
     </div>
 
     <!-- Main Content -->
@@ -427,10 +296,6 @@
                 </div>
                 <div class="card-content">
                     <h2>Internal Firmwares</h2>
-                    <div class="card-meta">
-                        <span class="badge">142 Items</span>
-                        <span class="badge">iOS 1.x - 18.x</span>
-                    </div>
                 </div>
             </a>
 
@@ -446,10 +311,6 @@
                 </div>
                 <div class="card-content">
                     <h2>NonUI Tutorial</h2>
-                    <div class="card-meta">
-                        <span class="badge">Console</span>
-                        <span class="badge">Switchboard</span>
-                    </div>
                 </div>
             </a>
 
@@ -465,10 +326,6 @@
                 </div>
                 <div class="card-content">
                     <h2>InternalUI Tutorial</h2>
-                    <div class="card-meta">
-                        <span class="badge">UI Suite</span>
-                        <span class="badge">Lab OS</span>
-                    </div>
                 </div>
             </a>
 
@@ -484,10 +341,6 @@
                 </div>
                 <div class="card-content">
                     <h2>DemoLoop Tutorial</h2>
-                    <div class="card-meta">
-                        <span class="badge">Store Demo</span>
-                        <span class="badge">Profiles</span>
-                    </div>
                 </div>
             </a>
 
@@ -503,10 +356,6 @@
                 </div>
                 <div class="card-content">
                     <h2>SkankPhone Tutorial</h2>
-                    <div class="card-meta">
-                        <span class="badge">Pre-iOS</span>
-                        <span class="badge">Historic</span>
-                    </div>
                 </div>
             </a>
 
@@ -522,56 +371,10 @@
                 </div>
                 <div class="card-content">
                     <h2>Archive</h2>
-                    <div class="card-meta">
-                        <span class="badge">Legacy Tools</span>
-                        <span class="badge">Jailbreak</span>
-                    </div>
                 </div>
             </a>
 
         </div>
-
-        <!-- Новая секция инъекций бд против пустоты страницы -->
-        <div class="section-title">Recent Database Injections</div>
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Artifact / Build</th>
-                        <th>Target Device</th>
-                        <th>Environment</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Alpine 1A420 (SwitchBoard)</td>
-                        <td>iPhone 1st Gen (iPhone1,1)</td>
-                        <td>NonUI Engine</td>
-                        <td><span class="status-dot"></span>Verified</td>
-                    </tr>
-                    <tr>
-                        <td>Heavenly 8A293 (InternalUI)</td>
-                        <td>iPhone 4 (iPhone3,1)</td>
-                        <td>SwitchBoard UI</td>
-                        <td><span class="status-dot"></span>Verified</td>
-                    </tr>
-                    <tr>
-                        <td>PurpleRestore Toolchain v3.8.2</td>
-                        <td>macOS Intel/Apple Silicon</td>
-                        <td>Internal Tool</td>
-                        <td><span class="status-dot"></span>Active</td>
-                    </tr>
-                    <tr>
-                        <td>Astro Diagnostics Suite</td>
-                        <td>Apple Watch S3 (Watch3,1)</td>
-                        <td>Lab Diags</td>
-                        <td><span class="status-dot"></span>Verified</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
     </div>
 
     <!-- Footer -->
