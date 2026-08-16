@@ -1,11 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heliotrope</title>
+    <title>Heliotrope - The Ultimate Apple Internal Hub</title>
     <style>
+        /* Фирменная глубокая фиолетовая палитра */
         :root {
             --bg-color: #0b0713;
             --card-bg: #160f24;
@@ -37,10 +37,11 @@
             position: relative;
         }
 
-        @keyframes appleFadeInUp {
+        /* Интегрированная плавная анимация появления (Fade In + 30px) */
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(16px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -48,16 +49,14 @@
             }
         }
 
-        @keyframes simpleFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
+        /* Hero Section */
         .hero {
             text-align: center;
             padding: 80px 20px 28px 20px;
             max-width: 800px;
-            animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+            animation-delay: 0.2s;
         }
 
         .hero h1 {
@@ -68,13 +67,15 @@
             color: var(--text-main);
         }
 
+        /* Поисковой хаб */
         .search-container {
             width: 100%;
             max-width: 500px;
             margin: 0 auto 48px auto;
             padding: 0 20px;
             opacity: 0;
-            animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s forwards;
+            animation: fadeIn 1.5s forwards;
+            animation-delay: 0.3s;
         }
 
         .search-box {
@@ -95,6 +96,7 @@
             box-shadow: 0 0 18px var(--accent-glow);
         }
 
+        /* Контейнер контента */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -102,12 +104,7 @@
             margin-bottom: 60px;
         }
 
-        .pinned-section {
-            margin-bottom: 56px;
-            display: none;
-            animation: simpleFadeIn 0.4s ease forwards;
-        }
-
+        /* Центрированные и строгие заголовки разделов */
         .section-title {
             font-size: 1.1rem;
             font-weight: 700;
@@ -120,7 +117,9 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
-            animation: simpleFadeIn 0.5s ease forwards;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+            animation-delay: 0.35s;
         }
 
         .grid {
@@ -129,6 +128,7 @@
             gap: 24px;
         }
 
+        /* Карточки */
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -150,19 +150,13 @@
                         box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-/* вот тут дерьмо ебанное */ 
-        #main-grid .card:nth-child(1) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.2s forwards; }
-        #main-grid .card:nth-child(2) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.26s forwards; }
-        #main-grid .card:nth-child(3) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.32s forwards; }
-        #main-grid .card:nth-child(4) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.38s forwards; }
-        #main-grid .card:nth-child(5) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.44s forwards; }
-        #main-grid .card:nth-child(6) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.5s forwards; }
-
-        #pinned-grid .card {
-            opacity: 1 !important;
-            transform: none !important;
-            animation: appleFadeInUp 0.35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
-        }
+        /* Каскадное появление основных карточек с новыми таймингами */
+        #main-grid .card:nth-child(1) { animation: fadeIn 1.5s forwards; animation-delay: 0.4s; }
+        #main-grid .card:nth-child(2) { animation: fadeIn 1.5s forwards; animation-delay: 0.46s; }
+        #main-grid .card:nth-child(3) { animation: fadeIn 1.5s forwards; animation-delay: 0.52s; }
+        #main-grid .card:nth-child(4) { animation: fadeIn 1.5s forwards; animation-delay: 0.58s; }
+        #main-grid .card:nth-child(5) { animation: fadeIn 1.5s forwards; animation-delay: 0.64s; }
+        #main-grid .card:nth-child(6) { animation: fadeIn 1.5s forwards; animation-delay: 0.7s; }
 
         .card.card-hidden {
             display: none !important;
@@ -187,12 +181,12 @@
             align-items: center;
             gap: 12px;
         }
-        
+
+        /* Зона элементов управления стрелкой */
         .header-right {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 16px;
             height: 32px;
         }
 
@@ -211,40 +205,7 @@
             transform: scale(1.04);
         }
 
-        .pin-button {
-            background: transparent;
-            border: none;
-            color: rgba(139, 92, 246, 0.35); /* вот типа приглушенный */
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-            z-index: 10;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-        }
-
-        .pin-button:hover {
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--accent-color);
-            transform: scale(1.08);
-            filter: drop-shadow(0 0 6px var(--accent-color));
-        }
-
-        /* звезда залупская чутчут */
-        .card.is-pinned .pin-button {
-            color: #d8b4fe !important;
-            fill: var(--accent-color);
-            filter: drop-shadow(0 0 8px var(--accent-color)) drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-        }
-
-        #main-grid .card.is-pinned .pin-button {
-            pointer-events: none;
-            cursor: default;
-        }
-
+        /* Изначально фиолетовая стрелка */
         .arrow-icon {
             color: var(--accent-color);
             display: inline-flex;
@@ -253,8 +214,8 @@
             transition: color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
         }
 
-        .card:hover .arrow-icon,
-        .card.is-pinned .arrow-icon {
+        /* Становится ярче при наведении на карточку */
+        .card:hover .arrow-icon {
             color: #d8b4fe;
             transform: translateX(5px);
             filter: drop-shadow(0 0 8px var(--accent-color));
@@ -267,6 +228,7 @@
             margin-top: 16px;
         }
 
+        /* Заглушка пустого поиска */
         .no-results {
             grid-column: 1 / -1;
             text-align: center;
@@ -276,6 +238,7 @@
             display: none;
         }
 
+        /* Подвал */
         footer {
             margin-top: auto;
             width: 100%;
@@ -284,7 +247,8 @@
             border-top: 1px solid var(--border-color);
             background-color: var(--footer-bg);
             opacity: 0;
-            animation: simpleFadeIn 0.8s ease 0.6s forwards;
+            animation: fadeIn 1.5s forwards;
+            animation-delay: 0.8s;
         }
 
         .footer-text {
@@ -324,31 +288,26 @@
 </head>
 <body>
 
+    <!-- Hero Section -->
     <div class="hero">
         <h1>Heliotrope</h1>
     </div>
 
+    <!-- Поисковой хаб -->
     <div class="search-container">
         <input type="text" id="search-input" class="search-box" placeholder="Type to filter modules instantly...">
     </div>
 
+    <!-- Main Content -->
     <div class="container">
         
-        <div id="pinned-container" class="pinned-section">
-            <div class="section-title">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)" stroke="var(--accent-color)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                Pinned
-            </div>
-            <div id="pinned-grid" class="grid">
-                <!-- Закрепленные карточки -->
-            </div>
-        </div>
-
+        <!-- Основная секция модулей (Modules) -->
         <div class="modules-section">
-            <div class="section-title">Modules</div>
+            <div class="section-title">MODULES</div>
             
             <div class="grid" id="main-grid">
                 
+                <!-- Card 1: Internal Firmwares -->
                 <a href="#firmwares" class="card" data-id="firmwares">
                     <div class="card-header">
                         <div class="header-left">
@@ -357,9 +316,6 @@
                             </div>
                         </div>
                         <div class="header-right">
-                            <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('firmwares')">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            </button>
                             <div class="arrow-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </div>
@@ -370,18 +326,15 @@
                     </div>
                 </a>
 
+                <!-- Card 2: NonUI Tutorial -->
                 <a href="#nonui" class="card" data-id="nonui">
                     <div class="card-header">
                         <div class="header-left">
                             <div class="icon-wrapper">
-                                
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                             </div>
                         </div>
                         <div class="header-right">
-                            <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('nonui')">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            </button>
                             <div class="arrow-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </div>
@@ -392,6 +345,7 @@
                     </div>
                 </a>
 
+                <!-- Card 3: InternalUI Tutorial -->
                 <a href="#internalui" class="card" data-id="internalui">
                     <div class="card-header">
                         <div class="header-left">
@@ -400,9 +354,6 @@
                             </div>
                         </div>
                         <div class="header-right">
-                            <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('internalui')">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            </button>
                             <div class="arrow-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </div>
@@ -413,6 +364,7 @@
                     </div>
                 </a>
 
+                <!-- Card 4: DemoLoop Tutorial -->
                 <a href="#demoloop" class="card" data-id="demoloop">
                     <div class="card-header">
                         <div class="header-left">
@@ -421,9 +373,6 @@
                             </div>
                         </div>
                         <div class="header-right">
-                            <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('demoloop')">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            </button>
                             <div class="arrow-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </div>
@@ -434,6 +383,7 @@
                     </div>
                 </a>
 
+                <!-- Card 5: Apps -->
                 <a href="#apps" class="card" data-id="apps">
                     <div class="card-header">
                         <div class="header-left">
@@ -442,9 +392,6 @@
                             </div>
                         </div>
                         <div class="header-right">
-                            <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('apps')">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            </button>
                             <div class="arrow-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </div>
@@ -455,17 +402,16 @@
                     </div>
                 </a>
 
+                <!-- Card 6: Archive -->
                 <a href="#archive" class="card" data-id="archive">
                     <div class="card-header">
                         <div class="header-left">
                             <div class="icon-wrapper">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+                                <!-- Из иконки коробки удалена лишняя внутренняя горизонтальная палочка-деталь -->
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect></svg>
                             </div>
                         </div>
                         <div class="header-right">
-                            <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('archive')">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            </button>
                             <div class="arrow-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </div>
@@ -476,12 +422,14 @@
                     </div>
                 </a>
 
-                <div id="search-empty" class="no-results">No modules match your query!</div>
+                <!-- Заглушка пустого поиска -->
+                <div id="search-empty" class="no-results">No modules match your query.</div>
 
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer>
         <div class="footer-text">© 2026 Purple Project. This site is for research purposes only and is not affiliated with Apple Inc.</div>
         <div class="footer-links">
@@ -491,9 +439,9 @@
         </div>
     </footer>
 
-    <!-- вот тут нейронка писала прям все-все тк я не знаю джаву -->
+    <!-- Скрипты управления -->
     <script>
-        // --- 1. Живой поиск по карточкам ---
+        // --- Живой поиск по карточкам ---
         const searchInput = document.getElementById('search-input');
         const emptyState = document.getElementById('search-empty');
         
@@ -512,74 +460,8 @@
                 }
             });
 
-            document.querySelectorAll('#pinned-grid .card').forEach(card => {
-                const title = card.querySelector('h2').textContent.toLowerCase();
-                if (title.includes(query)) {
-                    card.classList.remove('card-hidden');
-                } else {
-                    card.classList.add('card-hidden');
-                }
-            });
-
             emptyState.style.display = (visibleCount === 0 && mainCards.length > 0) ? 'block' : 'none';
         });
-
-        // --- 2. Система закладок (Pinned) ---
-        let pinnedIds = [];
-
-        function loadPinned() {
-            try {
-                const data = localStorage.getItem('heliotrope-pinned');
-                if (data) pinnedIds = JSON.parse(data);
-            } catch(e) { pinnedIds = []; }
-            updatePinnedUI();
-        }
-
-        function savePinned() {
-            localStorage.setItem('heliotrope-pinned', JSON.stringify(pinnedIds));
-        }
-
-        function togglePin(id) {
-            const index = pinnedIds.indexOf(id);
-            if (index === -1) {
-                pinnedIds.push(id);
-            } else {
-                pinnedIds.splice(index, 1);
-            }
-            savePinned();
-            updatePinnedUI();
-            searchInput.dispatchEvent(new Event('input'));
-        }
-
-        function updatePinnedUI() {
-            const pinnedContainer = document.getElementById('pinned-container');
-            const pinnedGrid = document.getElementById('pinned-grid');
-            
-            pinnedGrid.innerHTML = '';
-            
-            document.querySelectorAll('#main-grid .card').forEach(card => {
-                const id = card.getAttribute('data-id');
-                if (pinnedIds.includes(id)) {
-                    card.classList.add('is-pinned');
-                    
-                    const clone = card.cloneNode(true);
-                    const clonePinBtn = clone.querySelector('.pin-button');
-                    clonePinBtn.setAttribute('onclick', `event.preventDefault(); event.stopPropagation(); togglePin('${id}')`);
-                    
-                    pinnedGrid.appendChild(clone);
-                } else {
-                    card.classList.remove('is-pinned');
-                }
-            });
-
-            if (pinnedIds.length > 0) {
-                pinnedContainer.style.display = 'block';
-            } else {
-                pinnedContainer.style.display = 'none';
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', loadPinned);
     </script>
 
 </body>
