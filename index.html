@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heliotrope - The Ultimate Apple Internal Hub</title>
     <style>
-        /* Возврат к глубокой фиолетовой палитре и настройка альтернативных стилей */
+        /* Фирменная глубокая фиолетовая палитра */
         :root {
             --bg-color: #0b0713;
             --card-bg: #160f24;
@@ -15,75 +16,8 @@
             --border-color: rgba(139, 92, 246, 0.15);
             --border-hover: rgba(139, 92, 246, 0.45);
             --text-main: #ffffff;
-            --text-desc: #a78bfa;
             --text-muted: #9ca3af;
-            --hero-gradient: linear-gradient(135deg, #ffffff 30%, #b493ff 100%);
-            --table-header: #1e1336;
-            --badge-bg: rgba(139, 92, 246, 0.2);
-            --badge-text: #c084fc;
-            --switcher-bg: #160f24;
-            --btn-active-bg: #8b5cf6;
-            --btn-active-text: #ffffff;
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f5f5f7;
-            --card-bg: #ffffff;
-            --card-hover: #f0f0f2;
-            --accent-color: #6e44ff;
-            --accent-glow: rgba(110, 68, 255, 0.1);
-            --border-color: rgba(0, 0, 0, 0.08);
-            --border-hover: rgba(110, 68, 255, 0.4);
-            --text-main: #1d1d1f;
-            --text-desc: #6e44ff;
-            --text-muted: #6e6e73;
-            --hero-gradient: linear-gradient(135deg, #1d1d1f 30%, #6e44ff 100%);
-            --table-header: #f5f5f7;
-            --badge-bg: rgba(110, 68, 255, 0.08);
-            --badge-text: #6e44ff;
-            --switcher-bg: #ffffff;
-            --btn-active-bg: #6e44ff;
-            --btn-active-text: #ffffff;
-        }
-
-        [data-theme="switchboard"] {
-            --bg-color: #1a1a1c;
-            --card-bg: #262628;
-            --card-hover: #2f2f31;
-            --accent-color: #ff9f0a;
-            --accent-glow: rgba(255, 159, 10, 0.2);
-            --border-color: rgba(255, 159, 10, 0.15);
-            --border-hover: rgba(255, 159, 10, 0.5);
-            --text-main: #f5f5f7;
-            --text-desc: #ff9f0a;
-            --text-muted: #8e8e93;
-            --hero-gradient: linear-gradient(135deg, #ffffff 30%, #ff9f0a 100%);
-            --table-header: #3a3a3c;
-            --badge-bg: rgba(255, 159, 10, 0.12);
-            --badge-text: #ff9f0a;
-            --switcher-bg: #262628;
-            --btn-active-bg: #ff9f0a;
-            --btn-active-text: #1a1a1c;
-        }
-
-        [data-theme="cyberpunk"] {
-            --bg-color: #050505;
-            --card-bg: #0d1117;
-            --card-hover: #161b22;
-            --accent-color: #00f0ff;
-            --accent-glow: rgba(0, 240, 255, 0.2);
-            --border-color: rgba(0, 240, 255, 0.15);
-            --border-hover: #00ff66;
-            --text-main: #00ff66;
-            --text-desc: #00f0ff;
-            --text-muted: #8b949e;
-            --hero-gradient: linear-gradient(135deg, #00ff66 0%, #00f0ff 100%);
-            --table-header: #161b22;
-            --badge-bg: rgba(0, 255, 102, 0.1);
-            --badge-text: #00ff66;
-            --switcher-bg: #0d1117;
-            --btn-active-bg: #00f0ff;
-            --btn-active-text: #050505;
+            --footer-bg: #0d0818;
         }
 
         * {
@@ -102,76 +36,49 @@
             align-items: center;
             overflow-x: hidden;
             position: relative;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Полная переработка переключателя тем под монолитный и аккуратный стиль */
-        .header-controls {
-            width: 100%;
-            max-width: 1200px;
-            padding: 24px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
+        /* Нативная и плавная анимация Apple Fade In + Translate */
+        @keyframes appleFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .theme-control-panel {
-            background: var(--switcher-bg);
-            border: 1px solid var(--border-color);
-            padding: 4px;
-            border-radius: 30px;
-            display: flex;
-            gap: 2px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
+        @keyframes simpleFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .theme-pill {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .theme-pill:hover {
-            color: var(--text-main);
-        }
-
-        .theme-pill.active {
-            background: var(--btn-active-bg);
-            color: var(--btn-active-text);
-            box-shadow: 0 4px 10px var(--accent-glow);
-        }
-
-        /* Hero Section */
+        /* Наложение анимаций на базовые блоки */
         .hero {
             text-align: center;
-            padding: 40px 20px 28px 20px;
+            padding: 80px 20px 28px 20px;
             max-width: 800px;
+            animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
         }
 
         .hero h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            letter-spacing: -0.05em;
+            letter-spacing: -0.04em;
             margin-bottom: 12px;
-            background: var(--hero-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: all 0.3s ease;
+            color: var(--text-main);
         }
 
-        /* Строка поиска */
+        /* Поисковой хаб */
         .search-container {
             width: 100%;
             max-width: 500px;
             margin: 0 auto 48px auto;
             padding: 0 20px;
+            opacity: 0;
+            animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s forwards;
         }
 
         .search-box {
@@ -183,21 +90,41 @@
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .search-box:focus {
             border-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
+            box-shadow: 0 0 18px var(--accent-glow);
         }
 
-        /* Main Grid Container */
+        /* Контейнер контента */
         .container {
             width: 100%;
             max-width: 1200px;
             padding: 20px;
             margin-bottom: 60px;
+        }
+
+        /* Секция закладок (Pinned) */
+        .pinned-section {
+            margin-bottom: 40px;
+            display: none;
+            animation: simpleFadeIn 0.4s ease forwards;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            padding-left: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .grid {
@@ -206,7 +133,7 @@
             gap: 24px;
         }
 
-        /* Interactive Cards */
+        /* Карточки с каскадным и ультра-плавным проявлением */
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -214,27 +141,62 @@
             padding: 28px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             position: relative;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
             color: inherit;
-            min-height: 160px;
+            min-height: 140px;
+            opacity: 0;
+            will-change: transform, opacity;
+            transition: background-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                        border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Идеальный покадровый каскад появления без тормозов на планшетах */
+        #main-grid .card:nth-child(1) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.2s forwards; }
+        #main-grid .card:nth-child(2) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.26s forwards; }
+        #main-grid .card:nth-child(3) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.32s forwards; }
+        #main-grid .card:nth-child(4) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.38s forwards; }
+        #main-grid .card:nth-child(5) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.44s forwards; }
+        #main-grid .card:nth-child(6) { animation: appleFadeInUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.5s forwards; }
+
+        #pinned-grid .card {
+            opacity: 1 !important;
+            transform: none !important;
+            animation: appleFadeInUp 0.35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+
+        .card.card-hidden {
+            display: none !important;
         }
 
         .card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             background-color: var(--card-hover);
             border-color: var(--border-hover);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px var(--accent-glow);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), 0 0 25px var(--accent-glow);
         }
 
         .card-header {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .icon-wrapper {
@@ -245,237 +207,112 @@
             align-items: center;
             justify-content: center;
             color: var(--accent-color);
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
-        [data-theme="light"] .icon-wrapper { background: rgba(110, 68, 255, 0.06); }
-        [data-theme="switchboard"] .icon-wrapper { background: rgba(255, 159, 10, 0.06); }
-        [data-theme="cyberpunk"] .icon-wrapper { background: rgba(0, 240, 255, 0.06); }
-
         .card:hover .icon-wrapper {
-            transform: scale(1.05);
+            transform: scale(1.04);
+        }
+
+        /* Кнопка закрепления (Фиолетовая звезда) */
+        .pin-button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .pin-button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+        }
+
+        .card.is-pinned .pin-button {
+            color: var(--accent-color);
         }
 
         .arrow-icon {
             color: var(--text-muted);
-            transition: all 0.3s ease;
+            transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s ease;
         }
 
         .card:hover .arrow-icon {
             color: var(--accent-color);
-            transform: translateX(4px);
+            transform: translateX(5px);
         }
 
         .card-content h2 {
             font-size: 1.35rem;
             font-weight: 600;
             color: var(--text-main);
-            margin-bottom: 12px;
+            margin-top: 16px;
         }
 
-        /* Информационные бэджи */
-        .card-meta {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            background: var(--badge-bg);
-            color: var(--badge-text);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-
-        /* Полная переработка триггера и контейнера базы данных (Интегрированный Спойлер) */
-        .database-trigger-wrapper {
-            margin: 60px 0 20px 0;
-            width: 100%;
-        }
-
-        .database-interactive-header {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 18px 24px;
-            border-radius: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .database-interactive-header:hover {
-            background: var(--card-hover);
-            border-color: var(--border-hover);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.15), 0 0 15px var(--accent-glow);
-        }
-
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .section-title::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 18px;
-            background: var(--accent-color);
-            border-radius: 2px;
-            transition: background-color 0.3s ease;
-        }
-
-        .chevron-indicator {
-            color: var(--accent-color);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-        }
-
-        /* Класс вращения шеврона при раскрытии */
-        .database-interactive-header.expanded .chevron-indicator {
-            transform: rotate(180deg);
-        }
-
-        /* Плавный анимированный контейнер для контента таблицы */
-        .table-animator-box {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(-8px);
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        opacity 0.3s ease, 
-                        transform 0.3s ease;
-        }
-
-        .table-animator-box.visible {
-            max-height: 500px; /* Достаточно для контента таблицы */
-            opacity: 1;
-            transform: translateY(0);
-            margin-top: 14px;
-        }
-
-        .table-container {
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        .data-table th {
-            background: var(--table-header);
-            color: var(--text-main);
-            padding: 16px 20px;
-            font-weight: 600;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .data-table td {
-            padding: 16px 20px;
+        /* Заглушка пустого поиска */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
             color: var(--text-muted);
-            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            display: none;
         }
 
-        .data-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .data-table tr:hover td {
-            color: var(--text-main);
-            background: rgba(255,255,255,0.01);
-        }
-
-        .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #00ff66;
-            border-radius: 50%;
-            margin-right: 6px;
-        }
-
-        /* Footer */
+        /* Обновленный заметный футер */
         footer {
             margin-top: auto;
             width: 100%;
-            padding: 40px 20px;
+            padding: 48px 20px;
             text-align: center;
             border-top: 1px solid var(--border-color);
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: var(--footer-bg);
+            opacity: 0;
+            animation: simpleFadeIn 0.8s ease 0.6s forwards;
         }
 
         .footer-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-            opacity: 0.7;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 650px;
+            margin: 0 auto 24px auto;
+            line-height: 1.6;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 24px;
+            gap: 32px;
         }
 
         .footer-links a {
-            color: var(--text-muted);
+            color: #b493ff;
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block;
         }
 
         .footer-links a:hover {
-            color: var(--accent-color);
+            color: #ffffff;
+            transform: translateY(-1px);
         }
 
         @media (max-width: 768px) {
-            .header-controls {
-                justify-content: center;
-                padding-bottom: 0;
-            }
-            .hero {
-                padding-top: 24px;
-            }
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .data-table th:nth-child(3), .data-table td:nth-child(3) {
-                display: none;
-            }
+            .hero { padding-top: 40px; }
+            .grid { grid-template-columns: 1fr; }
+            .footer-links { gap: 20px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- Верхний блок управления с бесшовным переключателем стилей -->
-    <div class="header-controls">
-        <div class="theme-control-panel">
-            <button id="pill-dark" class="theme-pill active" onclick="setTheme('dark')">Dark Hub</button>
-            <button id="pill-light" class="theme-pill" onclick="setTheme('light')">Clean Light</button>
-            <button id="pill-switchboard" class="theme-pill" onclick="setTheme('switchboard')">SwitchBoard</button>
-            <button id="pill-cyberpunk" class="theme-pill" onclick="setTheme('cyberpunk')">Cyberpunk</button>
-        </div>
-    </div>
 
     <!-- Hero Section -->
     <div class="hero">
@@ -484,21 +321,41 @@
 
     <!-- Поисковой хаб -->
     <div class="search-container">
-        <input type="text" class="search-box" placeholder="Search firmwares, codenames, keys...">
+        <input type="text" id="search-input" class="search-box" placeholder="Type to filter modules instantly...">
     </div>
 
     <!-- Main Content -->
     <div class="container">
-        <div class="grid">
+        
+        <!-- Секция закладок (Pinned) -->
+        <div id="pinned-container" class="pinned-section">
+            <div class="section-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)" stroke="var(--accent-color)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                PINNED
+            </div>
+            <div id="pinned-grid" class="grid">
+                <!-- Закрепленные карточки -->
+            </div>
+        </div>
+
+        <!-- Основная сетка -->
+        <div class="grid" id="main-grid">
             
-            <!-- Card 1: Internal Firmwares (Вообще без тегов) -->
-            <a href="#firmwares" class="card">
+            <!-- Card 1: Internal Firmwares -->
+            <a href="#firmwares" class="card" data-id="firmwares">
                 <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                    <div class="header-left">
+                        <div class="icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                        </div>
                     </div>
-                    <div class="arrow-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <div class="header-right">
+                        <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('firmwares')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </button>
+                        <div class="arrow-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
                     </div>
                 </div>
                 <div class="card-content">
@@ -506,149 +363,120 @@
                 </div>
             </a>
 
-            <!-- Card 2: NonUI Tutorial (Иконка шестеренки + тег Guide) -->
-            <a href="#nonui" class="card">
+            <!-- Card 2: NonUI Tutorial -->
+            <a href="#nonui" class="card" data-id="nonui">
                 <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <div class="header-left">
+                        <div class="icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V3a2 2 0 0 1-4 0v.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        </div>
                     </div>
-                    <div class="arrow-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <div class="header-right">
+                        <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('nonui')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </button>
+                        <div class="arrow-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
                     </div>
                 </div>
                 <div class="card-content">
                     <h2>NonUI Tutorial</h2>
-                    <div class="card-meta">
-                        <span class="badge">Guide</span>
-                    </div>
                 </div>
             </a>
 
-            <!-- Card 3: InternalUI Tutorial (Тег Guide) -->
-            <a href="#internalui" class="card">
+            <!-- Card 3: InternalUI Tutorial -->
+            <a href="#internalui" class="card" data-id="internalui">
                 <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                    <div class="header-left">
+                        <div class="icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                        </div>
                     </div>
-                    <div class="arrow-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <div class="header-right">
+                        <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('internalui')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </button>
+                        <div class="arrow-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
                     </div>
                 </div>
                 <div class="card-content">
                     <h2>InternalUI Tutorial</h2>
-                    <div class="card-meta">
-                        <span class="badge">Guide</span>
-                    </div>
                 </div>
             </a>
 
-            <!-- Card 4: DemoLoop Tutorial (Тег Guide) -->
-            <a href="#demoloop" class="card">
+            <!-- Card 4: DemoLoop Tutorial -->
+            <a href="#demoloop" class="card" data-id="demoloop">
                 <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    <div class="header-left">
+                        <div class="icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        </div>
                     </div>
-                    <div class="arrow-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <div class="header-right">
+                        <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('demoloop')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </button>
+                        <div class="arrow-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
                     </div>
                 </div>
                 <div class="card-content">
                     <h2>DemoLoop Tutorial</h2>
-                    <div class="card-meta">
-                        <span class="badge">Guide</span>
-                    </div>
                 </div>
             </a>
 
-            <!-- Card 5: Apps (Переименовано, иконка-сетка, тег Apps) -->
-            <a href="#apps" class="card">
+            <!-- Card 5: Apps -->
+            <a href="#apps" class="card" data-id="apps">
                 <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+                    <div class="header-left">
+                        <div class="icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+                        </div>
                     </div>
-                    <div class="arrow-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <div class="header-right">
+                        <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('apps')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </button>
+                        <div class="arrow-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
                     </div>
                 </div>
                 <div class="card-content">
                     <h2>Apps</h2>
-                    <div class="card-meta">
-                        <span class="badge">Apps</span>
-                    </div>
                 </div>
             </a>
 
-            <!-- Card 6: Archive (Тег Archive) -->
-            <a href="#archive" class="card">
+            <!-- Card 6: Archive -->
+            <a href="#archive" class="card" data-id="archive">
                 <div class="card-header">
-                    <div class="icon-wrapper">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+                    <div class="header-left">
+                        <div class="icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" height="12"></line></svg>
+                        </div>
                     </div>
-                    <div class="arrow-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <div class="header-right">
+                        <button class="pin-button" onclick="event.preventDefault(); event.stopPropagation(); togglePin('archive')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </button>
+                        <div class="arrow-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
                     </div>
                 </div>
                 <div class="card-content">
                     <h2>Archive</h2>
-                    <div class="card-meta">
-                        <span class="badge">Archive</span>
-                    </div>
                 </div>
             </a>
 
-        </div>
+            <!-- Заглушка пустого поиска -->
+            <div id="search-empty" class="no-results">No modules match your query.</div>
 
-        <!-- Полноценный Интегрированный Спойлер Базы Данных -->
-        <div class="database-trigger-wrapper">
-            <div id="dbInteractiveHeader" class="database-interactive-header" onclick="toggleDatabase()">
-                <div class="section-title">Recent Database Injections</div>
-                <div class="chevron-indicator">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-            </div>
-            
-            <div id="dbTableAnimator" class="table-animator-box">
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Artifact / Build</th>
-                                <th>Target Device</th>
-                                <th>Environment</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Alpine 1A420 (SwitchBoard)</td>
-                                <td>iPhone 1st Gen (iPhone1,1)</td>
-                                <td>NonUI Engine</td>
-                                <td><span class="status-dot"></span>Verified</td>
-                            </tr>
-                            <tr>
-                                <td>Heavenly 8A293 (InternalUI)</td>
-                                <td>iPhone 4 (iPhone3,1)</td>
-                                <td>SwitchBoard UI</td>
-                                <td><span class="status-dot"></span>Verified</td>
-                            </tr>
-                            <tr>
-                                <td>PurpleRestore Toolchain v3.8.2</td>
-                                <td>macOS Intel/Apple Silicon</td>
-                                <td>Internal Tool</td>
-                                <td><span class="status-dot"></span>Active</td>
-                            </tr>
-                            <tr>
-                                <td>Astro Diagnostics Suite</td>
-                                <td>Apple Watch S3 (Watch3,1)</td>
-                                <td>Lab Diags</td>
-                                <td><span class="status-dot"></span>Verified</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
-
     </div>
 
     <!-- Footer -->
@@ -661,30 +489,95 @@
         </div>
     </footer>
 
-    <!-- Логика работы переключения интерфейса -->
+    <!-- Скрипты управления -->
     <script>
-        function setTheme(themeName) {
-            document.documentElement.setAttribute('data-theme', themeName);
-            localStorage.setItem('heliotrope-theme', themeName);
-            
-            document.querySelectorAll('.theme-pill').forEach(pill => pill.classList.remove('active'));
-            
-            const activePill = document.getElementById('pill-' + themeName);
-            if (activePill) activePill.classList.add('active');
-        }
+        // --- 1. Живой поиск по карточкам ---
+        const searchInput = document.getElementById('search-input');
+        const emptyState = document.getElementById('search-empty');
+        
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const mainCards = document.querySelectorAll('#main-grid .card');
+            let visibleCount = 0;
 
-        function toggleDatabase() {
-            const header = document.getElementById('dbInteractiveHeader');
-            const animator = document.getElementById('dbTableAnimator');
-            
-            header.classList.toggle('expanded');
-            animator.classList.toggle('visible');
-        }
+            mainCards.forEach(card => {
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                if (title.includes(query)) {
+                    card.classList.remove('card-hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('card-hidden');
+                }
+            });
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('heliotrope-theme') || 'dark';
-            setTheme(savedTheme);
+            document.querySelectorAll('#pinned-grid .card').forEach(card => {
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                if (title.includes(query)) {
+                    card.classList.remove('card-hidden');
+                } else {
+                    card.classList.add('card-hidden');
+                }
+            });
+
+            emptyState.style.display = (visibleCount === 0 && mainCards.length > 0) ? 'block' : 'none';
         });
+
+        // --- 2. Система закладок (Pinned) ---
+        let pinnedIds = [];
+
+        function loadPinned() {
+            try {
+                const data = localStorage.getItem('heliotrope-pinned');
+                if (data) pinnedIds = JSON.parse(data);
+            } catch(e) { pinnedIds = []; }
+            updatePinnedUI();
+        }
+
+        function savePinned() {
+            localStorage.setItem('heliotrope-pinned', JSON.stringify(pinnedIds));
+        }
+
+        function togglePin(id) {
+            const index = pinnedIds.indexOf(id);
+            if (index === -1) {
+                pinnedIds.push(id);
+            } else {
+                pinnedIds.splice(index, 1);
+            }
+            savePinned();
+            updatePinnedUI();
+            searchInput.dispatchEvent(new Event('input'));
+        }
+
+        function updatePinnedUI() {
+            const pinnedContainer = document.getElementById('pinned-container');
+            const pinnedGrid = document.getElementById('pinned-grid');
+            
+            pinnedGrid.innerHTML = '';
+            
+            document.querySelectorAll('#main-grid .card').forEach(card => {
+                const id = card.getAttribute('data-id');
+                if (pinnedIds.includes(id)) {
+                    card.classList.add('is-pinned');
+                    
+                    const clone = card.cloneNode(true);
+                    const clonePinBtn = clone.querySelector('.pin-button');
+                    clonePinBtn.setAttribute('onclick', `event.preventDefault(); event.stopPropagation(); togglePin('${id}')`);
+                    
+                    pinnedGrid.appendChild(clone);
+                } else {
+                    card.classList.remove('is-pinned');
+                }
+            });
+
+            if (pinnedIds.length > 0) {
+                pinnedContainer.style.display = 'block';
+            } else {
+                pinnedContainer.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', loadPinned);
     </script>
 
 </body>
