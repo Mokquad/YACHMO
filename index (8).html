@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08020f">
+  <meta name="description" content="Heliotrope — a community archive dedicated to preserving AppleInternal software, documentation, and history.">
+  <title>Heliotrope — AppleInternal Archive</title>
+  <style>
+    :root {
+      --bg: #07020d;
+      --bg-2: #10051d;
+      --surface: rgba(255,255,255,.072);
+      --surface-strong: rgba(255,255,255,.105);
+      --line: rgba(255,255,255,.13);
+      --line-strong: rgba(220,181,255,.3);
+      --text: #fbf8ff;
+      --muted: #bdb2c9;
+      --muted-2: #8f839c;
+      --purple: #b45cff;
+      --purple-light: #e5b7ff;
+      --purple-deep: #6d22d9;
+      --accent: #d58cff;
+      --shadow: 0 30px 80px rgba(0,0,0,.35);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 7%, rgba(169,71,255,.27), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(95,35,190,.24), transparent 31%),
+        radial-gradient(circle at 50% 88%, rgba(182,83,255,.12), transparent 34%),
+        linear-gradient(155deg, #050109 0%, #0b0214 42%, #12051e 72%, #07020d 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .38;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.78) 0 1px, transparent 1.25px),
+        radial-gradient(circle, rgba(220,183,255,.55) 0 1px, transparent 1.2px),
+        radial-gradient(circle, rgba(255,255,255,.3) 0 .7px, transparent 1px);
+      background-size: 151px 151px, 227px 227px, 89px 89px;
+      background-position: 12px 22px, 78px 119px, 34px 64px;
+      mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.8) 55%, transparent 100%);
+      z-index: -2;
+    }
+
+    .aurora {
+      position: fixed;
+      width: 48vw;
+      height: 48vw;
+      max-width: 700px;
+      max-height: 700px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .18;
+      pointer-events: none;
+      z-index: -1;
+      background: #9e46ff;
+      left: var(--x, 50%);
+      top: var(--y, 20%);
+      transform: translate(-50%, -50%);
+      transition: left .6s ease-out, top .6s ease-out;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+    .nav-shell {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 0;
+      background: linear-gradient(to bottom, rgba(7,2,13,.83), rgba(7,2,13,.48), transparent);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+    }
+
+    nav {
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 9px 12px 9px 16px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(22,8,37,.55);
+      border-radius: 18px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.2);
+    }
+
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand-mark {
+      width: 34px; height: 34px; border-radius: 11px; position: relative; overflow: hidden;
+      background: linear-gradient(145deg, #ead0ff 0%, #b253ff 48%, #6321cb 100%);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.65), 0 8px 24px rgba(165,70,255,.35);
+    }
+    .brand-mark::before {
+      content: ""; position: absolute; width: 8px; height: 23px; border-radius: 50%;
+      background: rgba(255,255,255,.88); transform: rotate(31deg); left: 13px; top: 6px;
+      box-shadow: 0 0 18px rgba(255,255,255,.65);
+    }
+    .brand-name { font-size: 16px; font-weight: 650; letter-spacing: -.02em; white-space: nowrap; }
+    .nav-links { display: flex; align-items: center; gap: 3px; }
+    .nav-links a {
+      padding: 9px 12px; color: var(--muted); font-size: 13px; font-weight: 520; border-radius: 10px;
+      transition: color .2s ease, background .2s ease;
+    }
+    .nav-links a:hover, .nav-links a:focus-visible { color: #fff; background: rgba(255,255,255,.07); outline: none; }
+    .nav-action {
+      border: 1px solid rgba(234,204,255,.34); color: #fff; cursor: pointer;
+      background: linear-gradient(135deg, rgba(195,104,255,.38), rgba(117,44,208,.44));
+      padding: 10px 15px; border-radius: 12px; font-size: 13px; font-weight: 650;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .nav-action:hover { transform: translateY(-1px); border-color: rgba(241,219,255,.65); background: rgba(176,81,246,.42); }
+
+    .hero { padding: 100px 0 72px; text-align: center; position: relative; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px;
+      border-radius: 999px; border: 1px solid rgba(230,194,255,.2);
+      background: rgba(170,79,237,.09); color: #d9b8ee; font-size: 12px; font-weight: 650;
+      letter-spacing: .02em;
+    }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: #c773ff; box-shadow: 0 0 14px #c773ff; }
+    h1 {
+      margin: 25px auto 0; max-width: 950px; font-size: clamp(64px, 10vw, 132px); line-height: .9;
+      letter-spacing: -.073em; font-weight: 750;
+      background: linear-gradient(180deg, #fff 8%, #f1d9ff 53%, #9f68c7 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 20px 65px rgba(165,78,255,.22));
+    }
+    .former { display: block; margin-top: 22px; color: #9e8cad; font-size: clamp(13px, 1.6vw, 16px); font-weight: 500; letter-spacing: .01em; }
+    .hero-copy { max-width: 670px; margin: 24px auto 0; color: #c8bdd2; font-size: clamp(17px, 2.2vw, 21px); line-height: 1.55; letter-spacing: -.015em; }
+    .hero-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1px solid transparent;
+      font-size: 14px; font-weight: 650; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { color: #160421; background: linear-gradient(180deg, #f4ddff, #c980ff); box-shadow: 0 13px 32px rgba(179,83,255,.27), inset 0 1px 0 #fff; }
+    .btn-primary:hover { box-shadow: 0 17px 38px rgba(179,83,255,.38), inset 0 1px 0 #fff; }
+    .btn-secondary { color: #f7edff; border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.055); }
+    .btn-secondary:hover { background: rgba(255,255,255,.09); }
+    .hero-orbit {
+      width: min(880px, 92vw); height: 210px; position: absolute; left: 50%; top: 95px;
+      transform: translateX(-50%); border-top: 1px solid rgba(215,169,255,.15); border-radius: 50%;
+      pointer-events: none; filter: drop-shadow(0 -2px 10px rgba(191,105,255,.1));
+    }
+
+    section { scroll-margin-top: 90px; }
+    .section { padding: 66px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+    .kicker { color: #bd76eb; font-size: 12px; font-weight: 720; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 9px; }
+    h2 { margin: 0; font-size: clamp(32px, 4.6vw, 52px); line-height: 1; letter-spacing: -.045em; font-weight: 700; }
+    .section-note { max-width: 410px; color: var(--muted); font-size: 14px; line-height: 1.55; text-align: right; }
+
+    .glass {
+      background: linear-gradient(145deg, rgba(255,255,255,.095), rgba(255,255,255,.035));
+      border: 1px solid var(--line);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), var(--shadow);
+      backdrop-filter: blur(18px) saturate(130%);
+      -webkit-backdrop-filter: blur(18px) saturate(130%);
+    }
+
+    .update-grid { display: grid; grid-template-columns: 1.35fr .65fr; gap: 16px; }
+    .update-card {
+      border-radius: var(--radius-lg); min-height: 230px; position: relative; overflow: hidden; padding: 28px;
+      display: flex; flex-direction: column; justify-content: space-between; cursor: pointer;
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+    .update-card:hover { transform: translateY(-4px); border-color: rgba(222,178,255,.3); }
+    .update-card.featured { min-height: 330px; }
+    .update-card.featured::after {
+      content: ""; position: absolute; width: 270px; height: 270px; border-radius: 50%; right: -70px; bottom: -105px;
+      background: radial-gradient(circle at 40% 35%, #dda2ff, #8d39e7 46%, #40127f 70%);
+      box-shadow: -20px -20px 75px rgba(190,86,255,.23), inset -25px -20px 45px rgba(30,3,57,.55);
+      opacity: .85;
+    }
+    .update-card.featured::before {
+      content: ""; position: absolute; width: 340px; height: 80px; border: 1px solid rgba(242,217,255,.29);
+      border-radius: 50%; right: -104px; bottom: 17px; transform: rotate(-17deg); z-index: 1;
+    }
+    .date-pill { width: fit-content; padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,.075); border: 1px solid rgba(255,255,255,.09); color: #cdbfd6; font-size: 11px; font-weight: 620; }
+    .update-content { position: relative; z-index: 2; max-width: 74%; }
+    .update-card h3 { margin: 14px 0 8px; font-size: 24px; letter-spacing: -.03em; }
+    .update-card p { color: var(--muted); margin: 0; font-size: 14px; line-height: 1.55; }
+    .stack { display: grid; gap: 16px; }
+    .small-update { min-height: 157px; }
+    .small-update .update-content { max-width: 100%; }
+    .small-update h3 { font-size: 19px; margin-top: 12px; }
+    .card-arrow {
+      position: absolute; top: 20px; right: 20px; width: 34px; height: 34px; display: grid; place-items: center;
+      border-radius: 50%; color: #e9ccfa; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);
+      transition: transform .25s ease, background .25s ease;
+    }
+    .update-card:hover .card-arrow { transform: translate(2px,-2px); background: rgba(204,132,255,.16); }
+
+    .library-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .library-card {
+      border: 1px solid var(--line); background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+      border-radius: var(--radius-lg); padding: 25px; min-height: 190px; color: inherit; cursor: pointer; text-align: left;
+      position: relative; overflow: hidden; transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+    .library-card::before {
+      content: ""; position: absolute; inset: auto -40px -90px auto; width: 190px; height: 190px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(186,88,255,.2), transparent 67%); opacity: 0; transition: opacity .25s ease;
+    }
+    .library-card:hover { transform: translateY(-4px); border-color: rgba(221,176,255,.34); background: linear-gradient(145deg, rgba(200,128,255,.12), rgba(255,255,255,.035)); }
+    .library-card:hover::before { opacity: 1; }
+    .card-top { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .icon-wrapper {
+      width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center; color: #f2deff;
+      background: linear-gradient(145deg, rgba(199,123,255,.3), rgba(105,35,180,.2));
+      border: 1px solid rgba(235,204,255,.2); box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+    }
+    .icon-wrapper svg { width: 24px; height: 24px; }
+    .arrow-icon {
+      width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; color: #a996b7;
+      border: 1px solid rgba(255,255,255,.095); transition: transform .25s ease, color .25s ease, background .25s ease;
+    }
+    .library-card:hover .arrow-icon { color: #fff; background: rgba(255,255,255,.08); transform: translateX(3px); }
+    .library-card h3 { margin: 30px 0 6px; font-size: 22px; letter-spacing: -.025em; }
+    .library-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; max-width: 84%; }
+
+    .team-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .person-card {
+      display: flex; align-items: center; gap: 18px; width: 100%; padding: 20px; text-align: left; color: inherit;
+      border-radius: 22px; border: 1px solid var(--line); background: rgba(255,255,255,.05); cursor: pointer;
+      transition: transform .25s ease, background .25s ease, border-color .25s ease;
+    }
+    .person-card:hover { transform: translateY(-3px); background: rgba(255,255,255,.08); border-color: rgba(218,170,255,.29); }
+    .avatar {
+      width: 68px; height: 68px; flex: 0 0 68px; border-radius: 20px; position: relative; overflow: hidden;
+      display: grid; place-items: center; color: #fff; font-size: 20px; font-weight: 740; letter-spacing: -.04em;
+      background: linear-gradient(145deg, #c77aff 0%, #6a20c8 62%, #35105c 100%);
+      border: 1px solid rgba(255,255,255,.2); box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 12px 30px rgba(87,25,145,.3);
+    }
+    .avatar.alt { background: linear-gradient(145deg, #e0a9ff 0%, #8f3dd8 50%, #3f126b 100%); }
+    .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .person-copy { min-width: 0; flex: 1; }
+    .person-copy h3 { margin: 0 0 5px; font-size: 19px; letter-spacing: -.02em; }
+    .person-copy p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .role { color: #c28ce6; font-size: 11px; font-weight: 680; text-transform: uppercase; letter-spacing: .08em; display: block; margin-top: 9px; }
+    .person-arrow { color: #9c8ba9; }
+
+    .manifesto {
+      margin-top: 66px; padding: clamp(28px, 5vw, 55px); border-radius: var(--radius-xl); position: relative; overflow: hidden;
+      display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 45px;
+    }
+    .manifesto::after {
+      content: ""; position: absolute; width: 360px; height: 360px; border-radius: 50%; right: -130px; top: -170px;
+      border: 1px solid rgba(226,191,255,.2); box-shadow: 0 0 80px rgba(180,75,255,.11), inset 0 0 80px rgba(180,75,255,.08);
+    }
+    .manifesto h2 { max-width: 590px; }
+    .manifesto p { margin: 18px 0 0; color: var(--muted); font-size: 15px; line-height: 1.65; max-width: 610px; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; position: relative; z-index: 1; }
+    .stat { padding: 19px; border-radius: 18px; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.09); }
+    .stat-value { display: block; font-size: 27px; font-weight: 700; letter-spacing: -.04em; color: #f4dcff; }
+    .stat-label { display: block; margin-top: 4px; font-size: 11px; color: var(--muted-2); }
+
+    footer { padding: 78px 0 34px; }
+    .footer-inner { padding-top: 25px; border-top: 1px solid rgba(255,255,255,.1); display: flex; justify-content: space-between; gap: 30px; align-items: flex-end; }
+    .footer-brand { font-size: 15px; font-weight: 680; }
+    .footer-brand span { color: #c882f1; }
+    .disclaimer { max-width: 700px; margin-top: 8px; color: #83778e; font-size: 11px; line-height: 1.55; }
+    .footer-meta { color: #83778e; font-size: 11px; white-space: nowrap; }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px;
+      background: rgba(3,0,7,.72); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      opacity: 0; visibility: hidden; transition: opacity .22s ease, visibility .22s ease;
+    }
+    .modal-backdrop.open { opacity: 1; visibility: visible; }
+    .modal {
+      width: min(560px, 100%); border-radius: 28px; padding: 28px; position: relative;
+      background: linear-gradient(145deg, rgba(40,16,61,.98), rgba(14,5,24,.98));
+      border: 1px solid rgba(235,207,255,.2); box-shadow: 0 40px 100px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.1);
+      transform: translateY(12px) scale(.98); transition: transform .22s ease;
+    }
+    .modal-backdrop.open .modal { transform: none; }
+    .modal-close { position: absolute; right: 18px; top: 18px; width: 36px; height: 36px; border: 0; border-radius: 50%; color: #d8c5e5; background: rgba(255,255,255,.08); cursor: pointer; font-size: 20px; }
+    .modal-icon { width: 54px; height: 54px; border-radius: 17px; display: grid; place-items: center; color: #f2dbff; background: rgba(187,91,255,.17); border: 1px solid rgba(226,186,255,.19); }
+    .modal-icon svg { width: 27px; height: 27px; }
+    .modal h3 { font-size: 30px; margin: 24px 0 10px; letter-spacing: -.04em; }
+    .modal p { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 0; }
+    .modal-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.08); color: #9687a2; font-size: 11px; }
+    .status { display: inline-flex; align-items: center; gap: 7px; color: #d6afea; }
+    .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #b75ff0; box-shadow: 0 0 10px #b75ff0; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 820px) {
+      .nav-links { display: none; }
+      .hero { padding-top: 78px; }
+      .hero-orbit { top: 80px; }
+      .update-grid, .manifesto { grid-template-columns: 1fr; }
+      .stack { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .manifesto { gap: 30px; }
+      .section-head { align-items: start; flex-direction: column; }
+      .section-note { text-align: left; }
+    }
+
+    @media (max-width: 620px) {
+      .container { width: min(100% - 24px, 1180px); }
+      .nav-shell { padding-top: 8px; }
+      nav { border-radius: 16px; }
+      .nav-action { padding: 9px 12px; }
+      .hero { padding: 65px 0 48px; }
+      h1 { font-size: clamp(55px, 18vw, 82px); }
+      .hero-copy { font-size: 17px; }
+      .section { padding: 48px 0; }
+      .library-grid, .team-grid, .stack { grid-template-columns: 1fr; }
+      .update-card.featured { min-height: 310px; }
+      .update-content { max-width: 94%; }
+      .update-card.featured .update-content { max-width: 77%; }
+      .person-card { padding: 16px; }
+      .avatar { width: 58px; height: 58px; flex-basis: 58px; border-radius: 17px; }
+      .manifesto { margin-top: 48px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .footer-meta { white-space: normal; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+
+  <header class="nav-shell">
+    <div class="container">
+      <nav aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Heliotrope home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-name">Heliotrope</span>
+        </a>
+        <div class="nav-links">
+          <a href="#new">What’s new</a>
+          <a href="#library">Library</a>
+          <a href="#team">Team</a>
+        </div>
+        <button class="nav-action" type="button" data-open="about">About the archive</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero container">
+      <div class="hero-orbit" aria-hidden="true"></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Independent preservation project</div>
+      <h1>Heliotrope</h1>
+      <span class="former">formerly known as iArchive 2</span>
+      <p class="hero-copy">Exploring, documenting, and preserving the software built behind Apple’s closed doors.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#library">Explore the archive <span aria-hidden="true">→</span></a>
+        <a class="btn btn-secondary" href="#new">See what’s new</a>
+      </div>
+    </section>
+
+    <section class="section container reveal" id="new">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Latest additions</div>
+          <h2>What’s new?</h2>
+        </div>
+        <p class="section-note">Recent discoveries, documentation updates, and preserved pieces from the AppleInternal ecosystem.</p>
+      </div>
+
+      <div class="update-grid">
+        <article class="update-card featured glass" tabindex="0" role="button" data-open="firmware">
+          <span class="date-pill">September 28, 2026</span>
+          <span class="card-arrow" aria-hidden="true">↗</span>
+          <div class="update-content">
+            <h3>Firmware collection expanded</h3>
+            <p>Newly catalogued internal restore images, build notes, and device compatibility details.</p>
+          </div>
+        </article>
+        <div class="stack">
+          <article class="update-card small-update glass" tabindex="0" role="button" data-open="guides">
+            <span class="date-pill">September 14, 2026</span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+            <div class="update-content">
+              <h3>Field guide refresh</h3>
+              <p>Cleaner steps and updated references.</p>
+            </div>
+          </article>
+          <article class="update-card small-update glass" tabindex="0" role="button" data-open="apps">
+            <span class="date-pill">August 31, 2026</span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+            <div class="update-content">
+              <h3>Four apps indexed</h3>
+              <p>Metadata and screenshots added.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container reveal" id="library">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Browse the collection</div>
+          <h2>The library.</h2>
+        </div>
+        <p class="section-note">A carefully organized entry point into internal software, tools, knowledge, and preserved materials.</p>
+      </div>
+
+      <div class="library-grid">
+        <button class="library-card" type="button" data-open="firmware">
+          <div class="card-top">
+            <div class="icon-wrapper">
+              <svg viewBox="0 0 1920 2359" fill="currentColor" aria-hidden="true">
+                <g transform="translate(0,2359) scale(.1,-.1)">
+                  <path d="M14150 23583c-672-53-1453-332-2150-771-850-534-1504-1253-1960-2152-262-519-430-1046-502-1584-29-216-32-638-5-791 10-54 19-100 21-102 11-11 125-24 261-29 767-31 1766 358 2570 1001 455 364 857 833 1195 1395 109 182 304 577 383 780 171 436 282 870 332 1305 33 288 30 706-7 898l-11 57-41-2c-22-1-61-3-86-5z"/>
+                  <path d="M13685 17884c-507-38-876-108-1375-259-293-89-550-183-1140-415-837-329-1102-403-1430-402-331 2-629 86-1412 398-646 257-835 327-1127 414-756 226-1398 264-2191 129-1308-222-2513-926-3394-1984C400 14306-150 12272 35 9920c144-1822 674-3696 1526-5390 400-797 740-1330 1455-2287 786-1052 1390-1642 1999-1955 387-198 711-278 1129-278 212 0 338 10 521 41 339 57 582 136 1145 371 608 254 846 340 1161 417 783 192 1644 169 2399-65 174-54 406-144 700-271 694-301 946-380 1420-445 61-8 203-13 400-13 335 0 424 10 671 74 357 92 767 302 1104 566 570 445 1067 1028 1882 2205 569 822 1076 1791 1438 2750 77 203 197 557 209 616l7 30-103 45c-193 83-494 253-746 422-497 331-985 792-1334 1261-573 767-895 1650-968 2651-13 180-13 590 0 770 49 672 215 1296 501 1880 409 837 1070 1581 1912 2149 64 44 117 85 117 90 0 16-182 257-295 392-514 613-1136 1090-1845 1415-605 277-1239 440-1955 504-162 15-694 27-800 19z"/>
+                </g>
+              </svg>
+            </div>
+            <span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+          <h3>Internal Firmwares</h3>
+          <p>Prototype builds, internal restores, and engineering images organized by platform.</p>
+        </button>
+
+        <button class="library-card" type="button" data-open="guides">
+          <div class="card-top">
+            <div class="icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            <span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+          <h3>Guides</h3>
+          <p>Practical documentation for identifying, researching, and working with internal releases.</p>
+        </button>
+
+        <button class="library-card" type="button" data-open="apps">
+          <div class="card-top">
+            <div class="icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+            </div>
+            <span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+          <h3>Apps</h3>
+          <p>Internal utilities, diagnostic applications, demos, and tools with preserved context.</p>
+        </button>
+
+        <button class="library-card" type="button" data-open="archive">
+          <div class="card-top">
+            <div class="icon-wrapper">
+              <svg viewBox="0 0 300 300" fill="currentColor" aria-hidden="true">
+                <g transform="translate(0,300) scale(.1,-.1)">
+                  <path d="M535 2706c-104-33-186-103-228-194-21-44-22-62-22-299v-251l24-26c17-18 35-26 57-26h33l4-672c2-499 7-683 16-713 32-103 144-211 243-234 77-17 1606-15 1673 3 72 19 106 39 161 93 94 95 88 42 94 828l5 690 39 6c26 4 48 16 64 34l23 28-3 241-3 241-29 62c-33 73-103 144-174 176l-47 22-945 2c-745 2-953-1-985-11zm1922-202c15-11 38-36 51-54 20-31 22-44 22-191v-159H469l3 164c3 182 8 196 78 244l33 22 923-2c918-3 923-3 951-24zm-57-1262V575l-24-36c-49-73-5-69-873-69H724l-44 23c-26 13-53 36-65 57-19 34-20 53-23 684-1 358 0 656 2 663 4 11 172 13 906 13h900v-668z"/><path d="M1273 1646c-58-26-71-93-27-145l26-31h446l32 27c29 24 32 31 27 71-3 27-13 53-26 66-20 20-32 21-234 23-165 2-219 0-244-11z"/>
+                </g>
+              </svg>
+            </div>
+            <span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+          <h3>Archive</h3>
+          <p>Preserved documents, media, metadata, and historical materials in one searchable place.</p>
+        </button>
+      </div>
+    </section>
+
+    <section class="section container reveal" id="team">
+      <div class="section-head">
+        <div>
+          <div class="kicker">People behind the project</div>
+          <h2>Developers &amp; Team</h2>
+        </div>
+        <p class="section-note">Built with care by independent researchers committed to digital preservation.</p>
+      </div>
+
+      <div class="team-grid">
+        <button class="person-card" type="button" data-open="mokquad">
+          <div class="avatar">MQ<img src="/Assets/Icons/Mokquad.png" alt="Mokquad avatar" onerror="this.remove()"></div>
+          <div class="person-copy">
+            <h3>Mokquad</h3>
+            <p>Development, research, and archive infrastructure.</p>
+            <span class="role">Developer &amp; archivist</span>
+          </div>
+          <span class="person-arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="person-card" type="button" data-open="lopata">
+          <div class="avatar alt">LO<img src="/Assets/Icons/Lopata.png" alt="Lopata avatar" onerror="this.remove()"></div>
+          <div class="person-copy">
+            <h3>Lopata</h3>
+            <p>Research, curation, and collection verification.</p>
+            <span class="role">Researcher &amp; curator</span>
+          </div>
+          <span class="person-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <div class="manifesto glass">
+        <div>
+          <div class="kicker">Our purpose</div>
+          <h2>Preserve the parts most people never see.</h2>
+          <p>Heliotrope exists to document material of historical and technical interest. We focus on context, traceability, and responsible preservation—not affiliation or endorsement.</p>
+        </div>
+        <div class="stats" aria-label="Archive principles">
+          <div class="stat"><span class="stat-value">01</span><span class="stat-label">Preserve responsibly</span></div>
+          <div class="stat"><span class="stat-value">02</span><span class="stat-label">Document clearly</span></div>
+          <div class="stat"><span class="stat-value">03</span><span class="stat-label">Verify context</span></div>
+          <div class="stat"><span class="stat-value">04</span><span class="stat-label">Share knowledge</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-brand">Heliotrope · <span>Purple Project Team</span></div>
+        <p class="disclaimer">Heliotrope is an independent archival project and is not affiliated with, authorized, sponsored, or endorsed by Apple Inc. Apple and related marks are trademarks of Apple Inc. All referenced materials remain the property of their respective owners.</p>
+      </div>
+      <div class="footer-meta">© <span id="year"></span> Purple Project Team</div>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" type="button" aria-label="Close dialog">×</button>
+      <div class="modal-icon" id="modal-icon" aria-hidden="true"></div>
+      <h3 id="modal-title">Archive</h3>
+      <p id="modal-copy"></p>
+      <div class="modal-footer"><span class="status">Archive preview</span><span>Heliotrope / Purple Project Team</span></div>
+    </div>
+  </div>
+
+  <script>
+    const icons = {
+      firmware: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M7 8l5-5 5 5M5 14h14a2 2 0 0 1 2 2v3H3v-3a2 2 0 0 1 2-2Z"/></svg>',
+      guides: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9 7 7M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>',
+      apps: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>',
+      archive: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h16v13H4zM3 3h18v5H3zM9 12h6"/></svg>',
+      person: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+      about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg>'
+    };
+
+    const content = {
+      firmware: { title: 'Internal Firmwares', icon: 'firmware', copy: 'A structured collection of prototype builds, internal restore images, engineering releases, and related build information. Entries are organized to keep platform, version, provenance, and compatibility context easy to understand.' },
+      guides: { title: 'Guides', icon: 'guides', copy: 'Research notes and practical walkthroughs for identifying builds, understanding internal tools, examining metadata, and navigating the archive responsibly.' },
+      apps: { title: 'Apps', icon: 'apps', copy: 'A catalogue of internal utilities, diagnostics, demonstration software, and engineering applications—with screenshots, version information, and historical context where available.' },
+      archive: { title: 'Archive', icon: 'archive', copy: 'The wider preservation collection: documents, photographs, interface captures, metadata, references, and other historically useful materials related to AppleInternal.' },
+      mokquad: { title: 'Mokquad', icon: 'person', copy: 'Developer and archivist working on Heliotrope’s interface, research systems, catalogue structure, and the technical foundation that keeps the collection accessible.' },
+      lopata: { title: 'Lopata', icon: 'person', copy: 'Researcher and curator focused on discovering material, checking context, organizing entries, and improving the quality of the preserved collection.' },
+      about: { title: 'About Heliotrope', icon: 'about', copy: 'Formerly known as iArchive 2, Heliotrope is an independent community project that aims to document and preserve AppleInternal software and related history. It is not connected with Apple Inc.' }
+    };
+
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalCopy = document.getElementById('modal-copy');
+    const modalIcon = document.getElementById('modal-icon');
+    const closeButton = modal.querySelector('.modal-close');
+    let lastFocused = null;
+
+    function openModal(key) {
+      const item = content[key];
+      if (!item) return;
+      lastFocused = document.activeElement;
+      modalTitle.textContent = item.title;
+      modalCopy.textContent = item.copy;
+      modalIcon.innerHTML = icons[item.icon];
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeButton.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    }
+
+    document.querySelectorAll('[data-open]').forEach(el => {
+      el.addEventListener('click', () => openModal(el.dataset.open));
+      el.addEventListener('keydown', e => {
+        if ((e.key === 'Enter' || e.key === ' ') && el.getAttribute('role') === 'button') {
+          e.preventDefault(); openModal(el.dataset.open);
+        }
+      });
+    });
+    closeButton.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    if (matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.addEventListener('pointermove', e => {
+        document.documentElement.style.setProperty('--x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--y', `${e.clientY}px`);
+      });
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
