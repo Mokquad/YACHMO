@@ -27,21 +27,25 @@
       --radius-md: 18px;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       min-height: 100vh;
       color: var(--text);
-      background:
-        radial-gradient(circle at 18% 7%, rgba(169,71,255,.27), transparent 28%),
-        radial-gradient(circle at 88% 18%, rgba(95,35,190,.24), transparent 31%),
-        radial-gradient(circle at 50% 88%, rgba(182,83,255,.12), transparent 34%),
-        linear-gradient(155deg, #050109 0%, #0b0214 42%, #12051e 72%, #07020d 100%);
+      background: 
+        radial-gradient(circle at 18% 12%, rgba(169, 71, 255, 0.4), transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(95, 35, 190, 0.35), transparent 50%),
+        radial-gradient(circle at 55% 75%, rgba(218, 93, 255, 0.18), transparent 45%),
+        linear-gradient(155deg, #050109 0%, #0c0316 42%, #160726 72%, #06020c 100%);
+      
+      /* ДОБАВЬ ЭТИ ДВЕ СТРОЧКИ: */
+      background-attachment: fixed;
+      background-size: cover;
+
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
+
 
     .aurora {
       position: fixed;
@@ -339,9 +343,9 @@
 
   <main id="top">
     <section class="hero container">
-      <div class="eyebrow"><span class="eyebrow-dot"></span> Independent preservation project</div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Made with love by Purple Project</div>
       <h1>Heliotrope</h1>
-      <span class="former">formerly known as iArchive 2</span>
+      <span class="former">(formerly known as iArchive 2)</span>
       <p class="hero-copy">Exploring, documenting, and preserving the software built behind Apple’s closed doors.</p>
     </section>
 
