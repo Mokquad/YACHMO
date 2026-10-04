@@ -33,48 +33,10 @@
       margin: 0;
       min-height: 100vh;
       color: var(--text);
-      background:
-        radial-gradient(circle at 18% 7%, rgba(169,71,255,.27), transparent 28%),
-        radial-gradient(circle at 88% 18%, rgba(95,35,190,.24), transparent 31%),
-        radial-gradient(circle at 50% 88%, rgba(182,83,255,.12), transparent 34%),
-        linear-gradient(155deg, #050109 0%, #0b0214 42%, #12051e 72%, #07020d 100%);
+      background: linear-gradient(132deg, #08020f 0%, #130522 24%, #251044 48%, #3b1764 66%, #1d0a36 82%, #090311 100%);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .38;
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,.78) 0 1px, transparent 1.25px),
-        radial-gradient(circle, rgba(220,183,255,.55) 0 1px, transparent 1.2px),
-        radial-gradient(circle, rgba(255,255,255,.3) 0 .7px, transparent 1px);
-      background-size: 151px 151px, 227px 227px, 89px 89px;
-      background-position: 12px 22px, 78px 119px, 34px 64px;
-      mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.8) 55%, transparent 100%);
-      z-index: -2;
-    }
-
-    .aurora {
-      position: fixed;
-      width: 48vw;
-      height: 48vw;
-      max-width: 700px;
-      max-height: 700px;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: .18;
-      pointer-events: none;
-      z-index: -1;
-      background: #9e46ff;
-      left: var(--x, 50%);
-      top: var(--y, 20%);
-      transform: translate(-50%, -50%);
-      transition: left .6s ease-out, top .6s ease-out;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -82,13 +44,10 @@
     .container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 
     .nav-shell {
-      position: sticky;
-      top: 0;
+      position: relative;
       z-index: 50;
       padding: 14px 0;
-      background: linear-gradient(to bottom, rgba(7,2,13,.83), rgba(7,2,13,.48), transparent);
-      backdrop-filter: blur(18px) saturate(140%);
-      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      background: transparent;
     }
 
     nav {
@@ -98,10 +57,10 @@
       justify-content: space-between;
       gap: 20px;
       padding: 9px 12px 9px 16px;
-      border: 1px solid rgba(255,255,255,.1);
-      background: rgba(22,8,37,.55);
+      border: 1px solid rgba(224,190,255,.18);
+      background: #17082d;
       border-radius: 18px;
-      box-shadow: 0 12px 35px rgba(0,0,0,.2);
+      box-shadow: 0 14px 32px rgba(5,0,14,.28), inset 0 1px 0 rgba(255,255,255,.06);
     }
 
     .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
@@ -117,19 +76,24 @@
     }
     .brand-name { font-size: 16px; font-weight: 650; letter-spacing: -.02em; white-space: nowrap; }
     .nav-links { display: flex; align-items: center; gap: 3px; }
-    .nav-links a {
-      padding: 9px 12px; color: var(--muted); font-size: 13px; font-weight: 520; border-radius: 10px;
+    .nav-links a, .nav-links button {
+      display: inline-flex; align-items: center; gap: 7px; padding: 9px 12px; color: var(--muted);
+      font-size: 13px; font-weight: 520; border-radius: 10px; border: 0; background: transparent; cursor: pointer;
       transition: color .2s ease, background .2s ease;
     }
-    .nav-links a:hover, .nav-links a:focus-visible { color: #fff; background: rgba(255,255,255,.07); outline: none; }
+    .nav-links a:hover, .nav-links a:focus-visible, .nav-links button:hover, .nav-links button:focus-visible {
+      color: #fff; background: rgba(184,103,255,.16); outline: none;
+    }
+    .nav-links svg { width: 15px; height: 15px; stroke-width: 1.7; }
     .nav-action {
-      border: 1px solid rgba(234,204,255,.34); color: #fff; cursor: pointer;
-      background: linear-gradient(135deg, rgba(195,104,255,.38), rgba(117,44,208,.44));
-      padding: 10px 15px; border-radius: 12px; font-size: 13px; font-weight: 650;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+      width: 38px; height: 38px; display: grid; place-items: center; padding: 0;
+      border: 1px solid rgba(236,207,255,.42); color: #fff; cursor: pointer;
+      background: linear-gradient(145deg, #7130b4, #4b1c83);
+      border-radius: 12px; font-size: 18px; font-weight: 700; line-height: 1;
+      box-shadow: 0 8px 18px rgba(54,16,99,.3), inset 0 1px 0 rgba(255,255,255,.2);
       transition: transform .2s ease, border-color .2s ease, background .2s ease;
     }
-    .nav-action:hover { transform: translateY(-1px); border-color: rgba(241,219,255,.65); background: rgba(176,81,246,.42); }
+    .nav-action:hover { transform: translateY(-1px); border-color: rgba(250,232,255,.78); background: linear-gradient(145deg, #8c42d5, #5d2499); }
 
     .hero { padding: 100px 0 72px; text-align: center; position: relative; }
     .eyebrow {
@@ -140,10 +104,8 @@
     }
     .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: #c773ff; box-shadow: 0 0 14px #c773ff; }
     h1 {
-      margin: 25px auto 0; max-width: 950px; font-size: clamp(64px, 10vw, 132px); line-height: .9;
-      letter-spacing: -.073em; font-weight: 750;
-      background: linear-gradient(180deg, #fff 8%, #f1d9ff 53%, #9f68c7 100%);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin: 25px auto 0; max-width: 950px; font-size: clamp(64px, 10vw, 132px); line-height: .95;
+      letter-spacing: -.045em; font-weight: 750; color: #fff;
       filter: drop-shadow(0 20px 65px rgba(165,78,255,.22));
     }
     .former { display: block; margin-top: 22px; color: #9e8cad; font-size: clamp(13px, 1.6vw, 16px); font-weight: 500; letter-spacing: .01em; }
@@ -155,15 +117,11 @@
       font-size: 14px; font-weight: 650; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
     }
     .btn:hover { transform: translateY(-2px); }
-    .btn-primary { color: #160421; background: linear-gradient(180deg, #f4ddff, #c980ff); box-shadow: 0 13px 32px rgba(179,83,255,.27), inset 0 1px 0 #fff; }
-    .btn-primary:hover { box-shadow: 0 17px 38px rgba(179,83,255,.38), inset 0 1px 0 #fff; }
-    .btn-secondary { color: #f7edff; border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.055); }
-    .btn-secondary:hover { background: rgba(255,255,255,.09); }
-    .hero-orbit {
-      width: min(880px, 92vw); height: 210px; position: absolute; left: 50%; top: 95px;
-      transform: translateX(-50%); border-top: 1px solid rgba(215,169,255,.15); border-radius: 50%;
-      pointer-events: none; filter: drop-shadow(0 -2px 10px rgba(191,105,255,.1));
-    }
+    .btn-primary { color: #fff; background: linear-gradient(135deg, #c87bff, #7f38d2); border-color: rgba(244,220,255,.5); box-shadow: 0 13px 32px rgba(126,47,211,.34), inset 0 1px 0 rgba(255,255,255,.55); }
+    .btn-primary:hover { box-shadow: 0 17px 38px rgba(158,72,255,.48), inset 0 1px 0 rgba(255,255,255,.7); }
+    .btn-secondary { color: #fff; border-color: rgba(220,180,255,.35); background: linear-gradient(135deg, rgba(125,48,191,.7), rgba(78,28,135,.82)); box-shadow: 0 10px 26px rgba(43,12,79,.28), inset 0 1px 0 rgba(255,255,255,.13); }
+    .btn-secondary:hover { background: linear-gradient(135deg, rgba(158,69,230,.82), rgba(95,35,163,.9)); }
+    .hero-orbit { display: none; }
 
     section { scroll-margin-top: 90px; }
     .section { padding: 66px 0; }
@@ -188,16 +146,8 @@
     }
     .update-card:hover { transform: translateY(-4px); border-color: rgba(222,178,255,.3); }
     .update-card.featured { min-height: 330px; }
-    .update-card.featured::after {
-      content: ""; position: absolute; width: 270px; height: 270px; border-radius: 50%; right: -70px; bottom: -105px;
-      background: radial-gradient(circle at 40% 35%, #dda2ff, #8d39e7 46%, #40127f 70%);
-      box-shadow: -20px -20px 75px rgba(190,86,255,.23), inset -25px -20px 45px rgba(30,3,57,.55);
-      opacity: .85;
-    }
-    .update-card.featured::before {
-      content: ""; position: absolute; width: 340px; height: 80px; border: 1px solid rgba(242,217,255,.29);
-      border-radius: 50%; right: -104px; bottom: 17px; transform: rotate(-17deg); z-index: 1;
-    }
+    .update-card.featured::after,
+    .update-card.featured::before { display: none; }
     .date-pill { width: fit-content; padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,.075); border: 1px solid rgba(255,255,255,.09); color: #cdbfd6; font-size: 11px; font-weight: 620; }
     .update-content { position: relative; z-index: 2; max-width: 74%; }
     .update-card h3 { margin: 14px 0 8px; font-size: 24px; letter-spacing: -.03em; }
@@ -227,18 +177,19 @@
     .library-card:hover::before { opacity: 1; }
     .card-top { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
     .icon-wrapper {
-      width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center; color: #f2deff;
-      background: linear-gradient(145deg, rgba(199,123,255,.3), rgba(105,35,180,.2));
-      border: 1px solid rgba(235,204,255,.2); box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+      width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center; color: #f0d8ff;
+      background: linear-gradient(145deg, rgba(174,91,255,.24), rgba(94,35,167,.2));
+      border: 1px solid rgba(235,204,255,.09); box-shadow: none;
     }
-    .icon-wrapper svg { width: 24px; height: 24px; }
+    .icon-wrapper svg { width: 24px; height: 24px; opacity: .88; stroke-width: 1.6; }
     .arrow-icon {
-      width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; color: #a996b7;
-      border: 1px solid rgba(255,255,255,.095); transition: transform .25s ease, color .25s ease, background .25s ease;
+      width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #e9ccfa;
+      border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);
+      transition: transform .25s ease, color .25s ease, background .25s ease;
     }
-    .library-card:hover .arrow-icon { color: #fff; background: rgba(255,255,255,.08); transform: translateX(3px); }
+    .library-card:hover .arrow-icon { color: #fff; background: rgba(204,132,255,.16); transform: translate(2px,-2px); }
     .library-card h3 { margin: 30px 0 6px; font-size: 22px; letter-spacing: -.025em; }
-    .library-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; max-width: 84%; }
+    .library-card p { margin: 0; color: #cbb8d9; font-size: 13px; line-height: 1.5; max-width: 84%; }
 
     .team-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
     .person-card {
@@ -347,8 +298,6 @@
   </style>
 </head>
 <body>
-  <div class="aurora" aria-hidden="true"></div>
-
   <header class="nav-shell">
     <div class="container">
       <nav aria-label="Primary navigation">
@@ -357,26 +306,28 @@
           <span class="brand-name">Heliotrope</span>
         </a>
         <div class="nav-links">
-          <a href="#new">What’s new</a>
-          <a href="#library">Library</a>
+          <a href="#top">Home</a>
+          <button type="button" data-open="contact" aria-label="Contact the team">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/><path d="m7 7 5 4 5-4"/></svg>
+            <span>Contact</span>
+          </button>
+          <button type="button" data-open="bugs" aria-label="Report a bug">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 8V6a3 3 0 0 1 6 0v2M7 9h10v6a5 5 0 0 1-10 0zM4 11h3M17 11h3M4 16h3M17 16h3M9 3 7.5 1.5M15 3l1.5-1.5"/></svg>
+            <span>Bug reports</span>
+          </button>
           <a href="#team">Team</a>
         </div>
-        <button class="nav-action" type="button" data-open="about">About the archive</button>
+        <button class="nav-action" type="button" data-open="about" aria-label="About the archive" title="About the archive">i</button>
       </nav>
     </div>
   </header>
 
   <main id="top">
     <section class="hero container">
-      <div class="hero-orbit" aria-hidden="true"></div>
       <div class="eyebrow"><span class="eyebrow-dot"></span> Independent preservation project</div>
       <h1>Heliotrope</h1>
       <span class="former">formerly known as iArchive 2</span>
       <p class="hero-copy">Exploring, documenting, and preserving the software built behind Apple’s closed doors.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#library">Explore the archive <span aria-hidden="true">→</span></a>
-        <a class="btn btn-secondary" href="#new">See what’s new</a>
-      </div>
     </section>
 
     <section class="section container reveal" id="new">
@@ -438,10 +389,10 @@
                 </g>
               </svg>
             </div>
-            <span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+            <span class="arrow-icon" aria-hidden="true">↗</span>
           </div>
           <h3>Internal Firmwares</h3>
-          <p>Prototype builds, internal restores, and engineering images organized by platform.</p>
+          <p>Prototype builds, restore images, and engineering releases.</p>
         </button>
 
         <button class="library-card" type="button" data-open="guides">
@@ -449,10 +400,10 @@
             <div class="icon-wrapper">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
             </div>
-            <span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+            <span class="arrow-icon" aria-hidden="true">↗</span>
           </div>
           <h3>Guides</h3>
-          <p>Practical documentation for identifying, researching, and working with internal releases.</p>
+          <p>Research notes and practical walkthroughs for the collection.</p>
         </button>
 
         <button class="library-card" type="button" data-open="apps">
@@ -460,10 +411,10 @@
             <div class="icon-wrapper">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
             </div>
-            <span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+            <span class="arrow-icon" aria-hidden="true">↗</span>
           </div>
           <h3>Apps</h3>
-          <p>Internal utilities, diagnostic applications, demos, and tools with preserved context.</p>
+          <p>Internal utilities, diagnostics, and engineering applications.</p>
         </button>
 
         <button class="library-card" type="button" data-open="archive">
@@ -475,10 +426,10 @@
                 </g>
               </svg>
             </div>
-            <span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+            <span class="arrow-icon" aria-hidden="true">↗</span>
           </div>
           <h3>Archive</h3>
-          <p>Preserved documents, media, metadata, and historical materials in one searchable place.</p>
+          <p>Documents, references, captures, and other preserved materials.</p>
         </button>
       </div>
     </section>
@@ -556,7 +507,9 @@
       apps: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>',
       archive: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h16v13H4zM3 3h18v5H3zM9 12h6"/></svg>',
       person: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
-      about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg>'
+      about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg>',
+      contact: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/><path d="m7 7 5 4 5-4"/></svg>',
+      bugs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 8V6a3 3 0 0 1 6 0v2M7 9h10v6a5 5 0 0 1-10 0zM4 11h3M17 11h3M4 16h3M17 16h3M9 3 7.5 1.5M15 3l1.5-1.5"/></svg>'
     };
 
     const content = {
@@ -566,7 +519,9 @@
       archive: { title: 'Archive', icon: 'archive', copy: 'The wider preservation collection: documents, photographs, interface captures, metadata, references, and other historically useful materials related to AppleInternal.' },
       mokquad: { title: 'Mokquad', icon: 'person', copy: 'Developer and archivist working on Heliotrope’s interface, research systems, catalogue structure, and the technical foundation that keeps the collection accessible.' },
       lopata: { title: 'Lopata', icon: 'person', copy: 'Researcher and curator focused on discovering material, checking context, organizing entries, and improving the quality of the preserved collection.' },
-      about: { title: 'About Heliotrope', icon: 'about', copy: 'Formerly known as iArchive 2, Heliotrope is an independent community project that aims to document and preserve AppleInternal software and related history. It is not connected with Apple Inc.' }
+      about: { title: 'About Heliotrope', icon: 'about', copy: 'Formerly known as iArchive 2, Heliotrope is an independent community project that aims to document and preserve AppleInternal software and related history. It is not connected with Apple Inc.' },
+      contact: { title: 'Contact the team', icon: 'contact', copy: 'Want to share a lead, ask a question, or leave a contact? Send a message to the Purple Project Team through the project’s usual contact channel.' },
+      bugs: { title: 'Report a bug', icon: 'bugs', copy: 'Found a broken link, incorrect metadata, or an interface problem? Include the page, a short description, and any useful reproduction details in your report.' }
     };
 
     const modal = document.getElementById('modal');
@@ -612,13 +567,6 @@
       entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: .12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    if (matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.addEventListener('pointermove', e => {
-        document.documentElement.style.setProperty('--x', `${e.clientX}px`);
-        document.documentElement.style.setProperty('--y', `${e.clientY}px`);
-      });
-    }
 
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
